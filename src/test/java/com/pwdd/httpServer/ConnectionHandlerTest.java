@@ -39,7 +39,7 @@ public class ConnectionHandlerTest {
 
     MockSocket mockSocket = new MockSocket();
     ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket);
-    connectionHandler.sendResponse(mockSocket, "foo");
+    connectionHandler.sendResponseTo(mockSocket, "foo");
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
   }

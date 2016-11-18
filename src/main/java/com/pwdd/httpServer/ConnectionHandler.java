@@ -17,7 +17,7 @@ class ConnectionHandler {
     return new BufferedReader(new InputStreamReader(socket.getInputStream()));
   }
 
-  void sendResponse(Socket socket, String response) throws IOException {
+  void sendResponseTo(Socket socket, String response) throws IOException {
     PrintWriter out = new PrintWriter(socket.getOutputStream());
     out.print(response);
     out.flush();
