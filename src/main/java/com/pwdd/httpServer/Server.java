@@ -2,6 +2,7 @@ package com.pwdd.httpServer;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 class Server {
   private ServerSocket serverSocket;
@@ -33,8 +34,11 @@ class Server {
       try {
         openConnection();
         connectionHandler = new ConnectionHandler(socket);
-        System.out.println(connectionHandler.getRequestFrom(socket).readLine());
-        connectionHandler.sendResponseTo(socket, "foo");
+        HashMap<String, String> request = RequestParser.header(connectionHandler.getRequestFrom(socket));
+        String uri = request.get("URI");
+        String responseBody = Router.forRequested(uri);
+        String response = new Response(defaultResponse(responseBody)).stringResponse();
+        connectionHandler.sendResponseTo(socket,  response);
         socket.close();
       } catch (Exception e) {
         e.printStackTrace();
@@ -49,5 +53,15 @@ class Server {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private HashMap<String, String> defaultResponse(String body) {
+    HashMap<String, String> response = new HashMap<>();
+    response.put("statusCode", "200");
+    response.put("statusMessage", "OK");
+    response.put("date", "some date");
+    response.put("contentType", "text/plain");
+    response.put("body", body);
+    return response;
   }
 }

@@ -1,10 +1,12 @@
 package com.pwdd.httpServer;
 
-import com.pwdd.httpServer.mocks.MockClient;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerTest {
@@ -43,11 +45,13 @@ public class ServerTest {
 //  @Test
 //  public void runServerTest() throws IOException {
 //    server.run();
-//    MockClient client = new MockClient(hostName, portNumber);
-//    client.out.print("GET / HTTP/1.1\r\nHost: localhost\r\n\r\n");
-//    client.socket.close();
-//    server.stop();
-//    assertEquals("HTTP/1.1 200 OK", client.in.readLine());
+//    Socket client = new Socket(hostName, portNumber);
+//    BufferedReader clientIn = new BufferedReader(new InputStreamReader(client.getInputStream()));
+//    PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+//    out.print("GET / HTTP/1.1\r\nHost: localhost\r\n\r\n");
+//    out.close();
+//
+//    assertEquals("HTTP/1.1 200 OK", clientIn.readLine());
 //  }
 
   private void startServer() {

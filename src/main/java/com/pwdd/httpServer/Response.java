@@ -25,7 +25,7 @@ class Response {
     this.date = getDateInUTC0();
     this.contentType = responseArgs.get("contentType");
     this.contentDisposition = responseArgs.get("contentDisposition");
-    this.contentLength = responseArgs.get("contentLenght");
+    this.contentLength = responseArgs.get("contentLength");
     this.body = responseArgs.get("body");
   }
 

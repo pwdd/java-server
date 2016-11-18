@@ -42,7 +42,7 @@ public class ResponseTest {
     result.put("statusMessage", "OK");
     result.put("date", "some date");
     result.put("contentType", "text/plain");
-
+    result.put("body", "foo");
     return result;
   }
 

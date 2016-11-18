@@ -30,7 +30,7 @@ final class RequestParser {
     StringBuilder builder = new StringBuilder();
     String line;
 
-    while ((line = in.readLine()) != null) {
+    while ((line = in.readLine()) != null && !line.equals("")) {
       builder.append(line + crlf);
     }
     return builder.toString();
