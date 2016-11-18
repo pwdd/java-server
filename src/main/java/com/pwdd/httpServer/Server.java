@@ -3,7 +3,7 @@ package com.pwdd.httpServer;
 import java.net.ServerSocket;
 
 class Server {
-  ServerSocket serverSocket;
+  private ServerSocket serverSocket;
 
   void listenAt(int portNumber) {
     try {
