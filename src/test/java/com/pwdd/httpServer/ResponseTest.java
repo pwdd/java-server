@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ResponseTest {
-  private Response response = new Response(hashResponse());
-  private List<String> header = Arrays.asList(response.stringResponse().split("\\s"));
+  private String response = Response.defaultHeader();
+  private List<String> header = Arrays.asList(response.split("\\s"));
 
   @Test
   public void responseHeaderHasProtocolVersion() {
@@ -25,26 +25,4 @@ public class ResponseTest {
   public void responseHeaderHasDate() {
     assertTrue("Header has Date key", header.contains("Date:"));
   }
-
-  @Test
-  public void responseHeaderRemovesNullValues() {
-    String contentLength = response.contentLength;
-    if (contentLength == null) {
-      assertTrue("Null body is not in response", !header.contains("Content-Length:"));
-    } else {
-      assertTrue("Null body is not in response", header.contains("Content-Length:"));
-    }
-  }
-
-  private HashMap<String, String> hashResponse() {
-    HashMap<String, String> result = new HashMap<>();
-    result.put("statusCode", "200");
-    result.put("statusMessage", "OK");
-    result.put("date", "some date");
-    result.put("contentType", "text/plain");
-    result.put("body", "foo");
-    return result;
-  }
-
-
 }

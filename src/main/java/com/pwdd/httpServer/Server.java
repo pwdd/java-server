@@ -36,8 +36,7 @@ class Server {
         connectionHandler = new ConnectionHandler(socket);
         HashMap<String, String> request = RequestParser.header(connectionHandler.getRequestFrom(socket));
         String uri = request.get("URI");
-        String responseBody = Router.forRequested(uri);
-        String response = new Response(defaultResponse(responseBody)).stringResponse();
+        String response = Response.defaultHeader() + Router.forRequested(uri);
         connectionHandler.sendResponseTo(socket,  response);
         socket.close();
       } catch (Exception e) {
@@ -53,15 +52,5 @@ class Server {
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  private HashMap<String, String> defaultResponse(String body) {
-    HashMap<String, String> response = new HashMap<>();
-    response.put("statusCode", "200");
-    response.put("statusMessage", "OK");
-    response.put("date", "some date");
-    response.put("contentType", "text/plain");
-    response.put("body", body);
-    return response;
   }
 }
