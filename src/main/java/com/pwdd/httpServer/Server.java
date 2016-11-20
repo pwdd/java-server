@@ -2,7 +2,6 @@ package com.pwdd.httpServer;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 
 class Server {
   private ServerSocket serverSocket;
@@ -25,20 +24,13 @@ class Server {
   }
 
   void run() {
-    ConnectionHandler connectionHandler;
-
     int portNumber = 8080;
     listenAt(portNumber);
 
     while(true) {
       try {
         openConnection();
-        connectionHandler = new ConnectionHandler(socket);
-        HashMap<String, String> request = RequestParser.header(connectionHandler.getRequestFrom(socket));
-        String uri = request.get("URI");
-        String response = Response.defaultHeader() + Router.forRequested(uri);
-        connectionHandler.sendResponseTo(socket,  response);
-        socket.close();
+        new Thread(new ConnectionHandler(socket)).start();
       } catch (Exception e) {
         e.printStackTrace();
         return;
