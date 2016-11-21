@@ -3,10 +3,11 @@ package com.pwdd.httpServer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-class Server {
+class Server implements Runnable {
   private ServerSocket serverSocket;
   private Socket socket;
   private String rootDirectory;
+  private Boolean started = false;
   Responder responder;
 
   Server(String _rootDirectory) {
@@ -14,40 +15,34 @@ class Server {
     this.responder = new Responder(rootDirectory);
   }
 
-  void listenAt(int portNumber) {
-    try {
-      serverSocket = new ServerSocket(portNumber);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  void listenAt(int portNumber) throws Exception {
+    serverSocket = new ServerSocket(portNumber);
   }
 
-  private void openConnection() {
-    try {
-      socket = serverSocket.accept();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  private void openConnection() throws Exception {
+    socket = serverSocket.accept();
   }
 
-  void run() {
+  @Override
+  public void run() {
+    started = true;
     int portNumber = 8080;
-    listenAt(portNumber);
 
-    while(true) {
-      try {
+    try {
+      listenAt(portNumber);
+      while(started) {
         openConnection();
-        new Thread(new ConnectionHandler(socket, responder)).start();
-      } catch (Exception e) {
-        e.printStackTrace();
-        return;
+        new ConnectionHandler(socket, responder).run();
       }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
   void stop() {
     try {
       serverSocket.close();
+      started = false;
     } catch (Exception e) {
       e.printStackTrace();
     }
