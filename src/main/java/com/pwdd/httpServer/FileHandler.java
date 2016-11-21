@@ -48,13 +48,13 @@ class FileHandler {
     return content.toString();
   }
 
-  void createIndex() {
-    try (Writer writer = new BufferedWriter(
-        new OutputStreamWriter(
-            new FileOutputStream(absolutePath + "index.html"), "utf-8"))) {
-      writer.write(index());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+//  void createIndex() {
+//    try (Writer writer = new BufferedWriter(
+//        new OutputStreamWriter(
+//            new FileOutputStream(absolutePath + "index.html"), "utf-8"))) {
+//      writer.write(index());
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//  }
 }

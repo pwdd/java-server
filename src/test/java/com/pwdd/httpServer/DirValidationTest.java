@@ -10,7 +10,7 @@ public class DirValidationTest {
   public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
   @Test
-  public void invalidDirTest() {
+  public void exitsWithInvalidDirDirTest() {
     String[] args = new String[]{"blob"};
     exit.expectSystemExitWithStatus(0);
     DirValidation.exitInvalidDir(args);
