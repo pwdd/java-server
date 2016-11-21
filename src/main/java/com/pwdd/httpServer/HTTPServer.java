@@ -2,8 +2,10 @@ package com.pwdd.httpServer;
 
 public class HTTPServer {
   public static void main( String[] args ) {
-    Router.exitInvalidDir(args);
-    String dir = Router.getDirectory(args);
-    new Server().run();
+    DirValidation.exitInvalidDir(args);
+    String dir = DirValidation.getDirectory(args);
+    FileHandler fileHandler = new FileHandler(dir);
+    fileHandler.createIndex();
+    new Server(dir).run();
   }
 }

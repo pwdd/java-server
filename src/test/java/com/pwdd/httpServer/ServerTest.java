@@ -16,7 +16,7 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    server = new Server();
+    server = new Server("/foo");
   }
 
   @After

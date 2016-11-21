@@ -9,9 +9,11 @@ import java.util.HashMap;
 
 class ConnectionHandler implements Runnable {
   private Socket socket;
+  private Router router;
 
-  ConnectionHandler(Socket _socket) {
+  ConnectionHandler(Socket _socket, Router _router) {
     this.socket = _socket;
+    this.router = _router;
   }
 
   BufferedReader getRequestFrom(Socket socket) throws IOException {
@@ -28,7 +30,7 @@ class ConnectionHandler implements Runnable {
   public void run() {
     try {
       String uri = RequestParser.header(getRequestFrom(socket)).get("URI");
-      String response = Response.defaultHeader() + Router.forRequested(uri);
+      String response = Response.defaultHeader(router.contentType(uri)) + router.forRequested(uri);
       sendResponseTo(socket, response);
       socket.close();
     } catch (Exception e) {

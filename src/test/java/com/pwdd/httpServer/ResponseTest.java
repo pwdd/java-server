@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ResponseTest {
-  private String response = Response.defaultHeader();
+  private String response = Response.defaultHeader("text/plain");
   private List<String> header = Arrays.asList(response.split("\\s"));
 
   @Test

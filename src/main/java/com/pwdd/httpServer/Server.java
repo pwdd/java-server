@@ -6,6 +6,13 @@ import java.net.Socket;
 class Server {
   private ServerSocket serverSocket;
   private Socket socket;
+  private String rootDirectory;
+  Router router;
+
+  Server(String _rootDirectory) {
+    this.rootDirectory = _rootDirectory;
+    this.router = new Router(rootDirectory);
+  }
 
   void listenAt(int portNumber) {
     try {
@@ -30,7 +37,7 @@ class Server {
     while(true) {
       try {
         openConnection();
-        new Thread(new ConnectionHandler(socket)).start();
+        new Thread(new ConnectionHandler(socket, router)).start();
       } catch (Exception e) {
         e.printStackTrace();
         return;

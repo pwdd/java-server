@@ -13,7 +13,7 @@ public class ConnectionHandlerTest {
 
   @Before
   public void setUp() {
-    server = new Server();
+    server = new Server("/foo");
   }
 
   @After
@@ -25,7 +25,7 @@ public class ConnectionHandlerTest {
   public void acceptsRequest() throws IOException {
     startServer();
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket);
+    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, server.router);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
     String expected = request.replace("\r\n", "");
     mockSocket.setRequestString(request);
@@ -38,7 +38,7 @@ public class ConnectionHandlerTest {
     startServer();
 
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket);
+    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, server.router);
     connectionHandler.sendResponseTo(mockSocket, "foo");
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);

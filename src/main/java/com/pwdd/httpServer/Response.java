@@ -7,11 +7,11 @@ import java.time.format.DateTimeFormatter;
 final class Response {
   private Response() {}
 
-  static String defaultHeader() {
+  static String defaultHeader(String contentType) {
     String crlf = "\r\n";
     return "HTTP/1.1 200 OK" + crlf +
         "Date: " + getDateInUTC0() + crlf +
-        "Content-Type: text/plain" + crlf +
+        "Content-Type: " + contentType + crlf +
         crlf;
   }
 
