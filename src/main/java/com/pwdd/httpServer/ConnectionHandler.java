@@ -5,15 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.HashMap;
 
 class ConnectionHandler implements Runnable {
   private Socket socket;
-  private Router router;
+  private Responder responder;
 
-  ConnectionHandler(Socket _socket, Router _router) {
+  ConnectionHandler(Socket _socket, Responder _responder) {
     this.socket = _socket;
-    this.router = _router;
+    this.responder = _responder;
   }
 
   BufferedReader getRequestFrom(Socket socket) throws IOException {
@@ -30,7 +29,7 @@ class ConnectionHandler implements Runnable {
   public void run() {
     try {
       String uri = RequestParser.header(getRequestFrom(socket)).get("URI");
-      String response = Response.defaultHeader(router.contentType(uri)) + router.forRequested(uri);
+      String response = responder.defaultHeader(responder.contentType(uri)) + responder.bodyForRequested(uri);
       sendResponseTo(socket, response);
       socket.close();
     } catch (Exception e) {

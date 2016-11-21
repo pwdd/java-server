@@ -4,11 +4,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-public class ResponseTest {
-  private String response = Response.defaultHeader("text/plain");
+public class ResponderTest {
+  private String response = new Responder("foo").defaultHeader("text/plain");
   private List<String> header = Arrays.asList(response.split("\\s"));
 
   @Test
