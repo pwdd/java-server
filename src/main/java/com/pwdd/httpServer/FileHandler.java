@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 class FileHandler {
-  private String dirName;
-  private String absolutePath = "src/main/java/com/pwdd/httpServer/";
+  private String directory;
 
-  FileHandler(String _dirName) {
-    this.dirName = absolutePath + _dirName;
+  FileHandler(String relativePath, String dirName) {
+    this.directory = relativePath + "/" + dirName;
   }
 
-  private List<String> listFilenames() {
-    File dir = new File(dirName);
+  FileHandler(String dirName) {
+    this.directory = "src/main/java/com/pwdd/httpServer/" + dirName;
+  }
+
+  List<String> listFilenames() {
+    File dir = new File(directory);
     File[] listOfFiles = dir.listFiles();
     List<String> filenames = new ArrayList<>();
 
@@ -28,33 +31,29 @@ class FileHandler {
   }
 
   private String linkfyDir(List<String> filenames) {
-    StringBuilder links = new StringBuilder();
+    String startList = "<ul>";
+    String endList = "</ul>";
+    StringBuilder listItems = new StringBuilder();
 
     for (String filename : filenames) {
-      links.append("<p><a href=\"./" + filename + "\">" + filename + "</a></p>");
+      listItems.append("<li><a href=\"./");
+      listItems.append(filename);
+      listItems.append("\">");
+      listItems.append(filename);
+      listItems.append("</a></li>");
     }
-    return links.toString();
+    return startList + listItems + endList;
   }
 
   String index() {
-    StringBuilder content = new StringBuilder();
-    content.append("<!doctype html>");
-    content.append("<html>");
-    content.append("<head><title>index</title></head>");
-    content.append("<body>");
-    content.append(linkfyDir(listFilenames()));
-    content.append("</body>");
-    content.append("</html>");
-    return content.toString();
+    String content = "";
+    return content + "<!doctype html>" +
+        "<html>" +
+        "<head><title>index</title></head>" +
+        "<body>" +
+        "<h1>Index:</h1>" +
+        linkfyDir(listFilenames()) +
+        "</body>" +
+        "</html>";
   }
-
-//  void createIndex() {
-//    try (Writer writer = new BufferedWriter(
-//        new OutputStreamWriter(
-//            new FileOutputStream(absolutePath + "index.html"), "utf-8"))) {
-//      writer.write(index());
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//  }
 }
