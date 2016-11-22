@@ -9,8 +9,10 @@ README
 
 - Creating jar file: `mvn package`
 
-- Starting the server: `java -jar target/httpServer-0.1.jar` 
+- Starting the server: `java -jar target/httpServer-0.1.jar -p <port-number> -d <directory-name>` 
+    
+    (Default: port: 8080, directory: "foo")
 
-- Quitting the server: CTRL+C
+- Quitting the server: `CTRL+C`
 
 - Running the tests: `mvn test`

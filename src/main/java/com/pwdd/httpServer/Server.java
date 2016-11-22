@@ -7,11 +7,19 @@ class Server implements Runnable {
   private ServerSocket serverSocket;
   private Socket socket;
   private String rootDirectory;
+  private int portNumber;
   private Boolean started = false;
   Responder responder;
 
-  Server(String _rootDirectory) {
+  Server(String _rootDirectory, int _portNumber) {
     this.rootDirectory = _rootDirectory;
+    this.portNumber = _portNumber;
+    this.responder = new Responder(rootDirectory);
+  }
+
+  Server() {
+    this.rootDirectory = "foo";
+    this.portNumber = 8080;
     this.responder = new Responder(rootDirectory);
   }
 
@@ -26,7 +34,6 @@ class Server implements Runnable {
   @Override
   public void run() {
     started = true;
-    int portNumber = 8080;
 
     try {
       listenAt(portNumber);

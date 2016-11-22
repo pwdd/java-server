@@ -17,7 +17,7 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    server = new Server("/foo");
+    server = new Server();
     thread = new Thread(server);
     thread.start();
   }

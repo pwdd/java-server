@@ -1,27 +1,80 @@
 package com.pwdd.httpServer;
 
+import java.util.Arrays;
+import java.util.List;
+
 final class ArgumentsValidation {
+  static List<String> validDirs = Arrays.asList("foo", "bar");
+  static String defaultDir = "foo";
+  static String defaultPortNumber = "8080";
+
   private ArgumentsValidation() {}
 
-  private static Boolean isValidDirectory(String dirName) {
-    return (dirName.equals("foo") || dirName.equals("bar"));
+  static Boolean isValidArgs(String[] args) {
+    return args.length == 0 || (startsWithFlag(args) && hasPortOrDir(args));
   }
 
   static String getDirectory(String[] args) {
-    if (args.length == 0) {
-      return "foo";
-    }
-    else if (isValidDirectory(args[0])) {
-      return args[0];
-    } else {
-      return "foo";
+    return getArg(args, "-d", defaultDir);
+  }
+
+  static String getPortNumber(String[] args) {
+    return getArg(args, "-p", defaultPortNumber);
+  }
+
+  static void exitOnInvalidArgs(String[] args) {
+    if (!isValidArgs(args) || (!isValidDirectory(getDirectory(args)) || !isValidPortNumber(getPortNumber(args)))) {
+        System.out.println("invalid arguments");
+        System.exit(0);
     }
   }
 
-  static void exitInvalidDir(String[] args) {
-    if (args.length > 0 && !isValidDirectory(args[0])) {
-      System.out.println("not a valid directory name");
-      System.exit(0);
+  private static Boolean hasPortOrDir(String[] args) {
+    return (args.length == 2 || args.length == 4) &&
+        getIndexOf(args, "-d") != -1 &&
+        getIndexOf(args, "-p") != -1;
+  }
+
+  private static Boolean startsWithFlag(String[] args) {
+    if (args.length == 2) {
+      return args[0].equals("-p") || args[0].equals("-d");
     }
+    else {
+      return (args.length == 4) &&
+          (args[0].equals("-p") || args[0].equals("-d")) &&
+          (args[2].equals("-p") || args[2].equals("-d"));
+    }
+  }
+
+  private static Boolean isValidDirectory(String dirName) {
+    return (validDirs.contains(dirName) || dirName.equals(""));
+  }
+
+  private static Boolean isValidPortNumber(String port) {
+    if (isNumeric(port)) {
+      int portNumber = Integer.parseInt(port);
+      return portNumber > 0 && portNumber <= 65535;
+    } else {
+      return false;
+    }
+  }
+
+  private static Boolean isNumeric(String str) {
+    return str.matches("\\d+");
+  }
+
+  private static String getArg(String[] args, String arg, String defaultResult) {
+    List<String> argsList = Arrays.asList(args);
+    if (argsList.contains(arg)) {
+      return args[getIndexOf(args, arg)];
+    }
+    else {
+      return defaultResult;
+    }
+  }
+
+  private static int getIndexOf(String[] args, String arg) {
+    List<String> argsList = Arrays.asList(args);
+    return argsList.indexOf(arg) + 1;
   }
 }

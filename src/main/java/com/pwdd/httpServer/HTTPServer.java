@@ -2,8 +2,9 @@ package com.pwdd.httpServer;
 
 public class HTTPServer {
   public static void main( String[] args ) {
-    ArgumentsValidation.exitInvalidDir(args);
-    String dir = ArgumentsValidation.getDirectory(args);
-    new Server(dir).run();
+    ArgumentsValidation.exitOnInvalidArgs(args);
+    String dirName = ArgumentsValidation.getDirectory(args);
+    int porNumber = Integer.parseInt(ArgumentsValidation.getPortNumber(args));
+    new Server(dirName, porNumber).run();
   }
 }

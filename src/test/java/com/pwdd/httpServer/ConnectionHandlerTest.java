@@ -13,7 +13,7 @@ public class ConnectionHandlerTest {
 
   @Before
   public void setUp() {
-    server = new Server("/foo");
+    server = new Server();
   }
 
   @After
