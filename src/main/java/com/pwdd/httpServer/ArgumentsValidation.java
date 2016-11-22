@@ -1,7 +1,7 @@
 package com.pwdd.httpServer;
 
-final class DirValidation {
-  private DirValidation() {}
+final class ArgumentsValidation {
+  private ArgumentsValidation() {}
 
   private static Boolean isValidDirectory(String dirName) {
     return (dirName.equals("foo") || dirName.equals("bar"));

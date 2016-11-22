@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import static org.junit.Assert.*;
 
-public class DirValidationTest {
+public class ArgumentsValidationTest {
   @Rule
   public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
@@ -13,18 +13,18 @@ public class DirValidationTest {
   public void exitsWithInvalidDirDirTest() {
     String[] args = new String[]{"blob"};
     exit.expectSystemExitWithStatus(0);
-    DirValidation.exitInvalidDir(args);
+    ArgumentsValidation.exitInvalidDir(args);
   }
 
   @Test
   public void validDirAsEmptyStringTest() {
     String[] args = new String[]{""};
-    assertEquals("foo", DirValidation.getDirectory(args));
+    assertEquals("foo", ArgumentsValidation.getDirectory(args));
   }
 
   @Test
   public void validDirAsExistingDirTest() {
     String[] args = new String[]{"foo"};
-    assertEquals("foo", DirValidation.getDirectory(args));
+    assertEquals("foo", ArgumentsValidation.getDirectory(args));
   }
 }
