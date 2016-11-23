@@ -5,26 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 class FileHandler {
-  private String directory;
-
-  FileHandler(String relativePath, String dirName) {
-    this.directory = relativePath + "/" + dirName;
-  }
+  private File directory;
 
   FileHandler(String dirName) {
-    this.directory = "src/main/java/com/pwdd/httpServer/" + dirName;
+    this.directory = new File(dirName);
   }
 
   List<String> listFilenames() {
-    File dir = new File(directory);
-    File[] listOfFiles = dir.listFiles();
+    File[] listOfFiles = directory.listFiles();
     List<String> filenames = new ArrayList<>();
 
     if (listOfFiles != null) {
       for (File file : listOfFiles) {
-        if (file.isFile()) {
-          filenames.add(file.getName());
-        }
+        filenames.add(file.getName());
       }
     }
     return filenames;

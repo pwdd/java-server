@@ -11,9 +11,9 @@ README
 
 - Starting the server: `java -jar target/httpServer-0.1.jar -p <port-number> -d <directory-name>` 
     
-    - Default: port: 8080, directory: "foo"
+    - Default: port: 8080, directory: "./foo"
     - Valid ports: from 1 to 65535
-    - Valid directory names: "foo" and "bar"
+    - Easy to access directories: "./foo" and "/.bar"
 
 - Quitting the server: `CTRL+C`
 

@@ -52,7 +52,7 @@ public class ServerTest {
     PrintWriter out = new PrintWriter(client.getOutputStream());
     out.print("GET / HTTP/1.1\r\nHost: localhost\r\n\r\n");
     out.flush();
-    client.setSoTimeout(10);
+    client.setSoTimeout(500);
     String in = clientIn.readLine();
     out.close();
     assertEquals("HTTP/1.1 200 OK", in);

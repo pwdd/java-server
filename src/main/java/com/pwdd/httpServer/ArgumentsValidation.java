@@ -4,14 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 final class ArgumentsValidation {
-  static List<String> validDirs = Arrays.asList("foo", "bar");
-  static String defaultDir = "foo";
+  static String defaultDir = "./foo";
   static String defaultPortNumber = "8080";
 
   private ArgumentsValidation() {}
 
   static Boolean isValidArgs(String[] args) {
-    return args.length == 0 || (startsWithFlag(args) && hasPortOrDir(args));
+    return args.length == 0 ||
+        ((startsWithFlag(args) && !sameArg(args)) &&
+            hasPortOrDir(args));
   }
 
   static String getDirectory(String[] args) {
@@ -23,7 +24,7 @@ final class ArgumentsValidation {
   }
 
   static void exitOnInvalidArgs(String[] args) {
-    if (!isValidArgs(args) || (!isValidDirectory(getDirectory(args)) || !isValidPortNumber(getPortNumber(args)))) {
+    if (!isValidArgs(args)) {
         System.out.println("invalid arguments");
         System.exit(0);
     }
@@ -46,8 +47,8 @@ final class ArgumentsValidation {
     }
   }
 
-  private static Boolean isValidDirectory(String dirName) {
-    return (validDirs.contains(dirName) || dirName.equals(""));
+  private static Boolean sameArg(String[] args) {
+    return args.length == 4 && args[0].equals(args[2]);
   }
 
   private static Boolean isValidPortNumber(String port) {
