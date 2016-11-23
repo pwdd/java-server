@@ -10,9 +10,7 @@ final class ArgumentsValidation {
   private ArgumentsValidation() {}
 
   static Boolean isValidArgs(String[] args) {
-    return args.length == 0 ||
-        ((startsWithFlag(args) && !sameArg(args)) &&
-            hasPortOrDir(args));
+    return args.length == 0 || ((startsWithFlag(args) && !sameArg(args)) && hasPortOrDir(args));
   }
 
   static String getDirectory(String[] args) {
@@ -24,7 +22,7 @@ final class ArgumentsValidation {
   }
 
   static void exitOnInvalidArgs(String[] args) {
-    if (!isValidArgs(args)) {
+    if (!isValidArgs(args) || !isValidPortNumber(getPortNumber(args))) {
         System.out.println("invalid arguments");
         System.exit(0);
     }

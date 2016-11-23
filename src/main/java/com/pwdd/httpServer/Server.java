@@ -9,6 +9,7 @@ class Server implements Runnable {
   private String rootDirectory;
   private int portNumber;
   private Boolean started = false;
+  private ConnectionHandler connectionHandler;
   Responder responder;
 
   Server(String _rootDirectory, int _portNumber) {
@@ -31,6 +32,10 @@ class Server implements Runnable {
     socket = serverSocket.accept();
   }
 
+  private void startConnectionHandler() {
+    connectionHandler = new ConnectionHandler(socket, responder);
+  }
+
   @Override
   public void run() {
     started = true;
@@ -39,7 +44,8 @@ class Server implements Runnable {
       listenAt(portNumber);
       while(started) {
         openConnection();
-        new ConnectionHandler(socket, responder).run();
+        startConnectionHandler();
+        connectionHandler.run();
       }
     } catch (Exception e) {
       e.printStackTrace();

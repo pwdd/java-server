@@ -92,6 +92,13 @@ public class ArgumentsValidationTest {
   }
 
   @Test
+  public void exitsWithInvalidPortTest() {
+    String[] args = new String[]{"-p", "0"};
+    exit.expectSystemExitWithStatus(0);
+    ArgumentsValidation.exitOnInvalidArgs(args);
+  }
+
+  @Test
   public void exitsWithRepeatedArgsTest() {
     String[] args = new String[]{"-d", "foo", "-d", "bar"};
     exit.expectSystemExitWithStatus(0);
