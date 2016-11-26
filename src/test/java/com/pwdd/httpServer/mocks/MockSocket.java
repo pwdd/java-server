@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockSocket extends Socket {
-  public String stringRequest;
+  private String stringRequest;
   public String storedOutput;
-  private List<Byte> listOfBytes = new ArrayList<>();
+  private final List<Byte> listOfBytes = new ArrayList<>();
 
   public MockSocket () {}
 

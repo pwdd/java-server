@@ -1,5 +1,6 @@
 package com.pwdd.httpServer;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
@@ -9,7 +10,7 @@ public class ArgumentsValidationTest {
   @Test
   public void getEmptyArgsTest() {
     String[] zeroArg = new String[0];
-    assertEquals(ArgumentsValidation.defaultDir, ArgumentsValidation.getDirectory(zeroArg));
+    Assert.assertEquals(ArgumentsValidation.defaultDir, ArgumentsValidation.getDirectory(zeroArg));
   }
 
   @Test
@@ -67,6 +68,18 @@ public class ArgumentsValidationTest {
 
     String[] repeatedARgs = new String[]{"-d", "foo", "-d", "bar"};
     assertFalse("Invalid if it has repeated args", ArgumentsValidation.isValidArgs((repeatedARgs)));
+  }
+
+  @Test
+  public void invalidPortNumber() {
+    String[] biggerPort = new String[]{"-p", "65536"};
+    assertFalse("Does not accept port bigger than 65535", ArgumentsValidation.isValidArgs(biggerPort));
+
+    String[] smallerPort = new String[]{"-p", "0"};
+    assertFalse("Does not accept port smaller than 1", ArgumentsValidation.isValidArgs(smallerPort));
+
+    String[] notNumeric = new String[]{"-p", "a"};
+    assertFalse("Does not accept not numeric string", ArgumentsValidation.isValidArgs(notNumeric));
   }
 
   @Test

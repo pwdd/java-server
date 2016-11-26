@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 class ConnectionHandler implements Runnable {
-  private Socket socket;
-  private Responder responder;
+  private final Socket socket;
+  private final Responder responder;
 
   ConnectionHandler(Socket _socket, Responder _responder) {
     this.socket = _socket;

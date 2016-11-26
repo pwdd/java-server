@@ -5,10 +5,17 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 class Responder {
-  private FileHandler fileHandler;
+  private final IHandler[] handlers;
 
   Responder(String dir) {
-    this.fileHandler = new FileHandler(dir);
+    this.handlers = new IHandler[] {
+        new HelloWorldHandler(),
+        new FileHandler(dir)
+    };
+  }
+
+  Responder(IHandler[] handlers) {
+    this.handlers = handlers;
   }
 
   String defaultHeader(String contentType) {
@@ -20,14 +27,12 @@ class Responder {
   }
 
   String bodyForRequested(String uri) {
-    if (uri.equals("/")) {
-      return fileHandler.index();
+    for (IHandler handler : this.handlers) {
+      if (handler.canRespond(uri)) {
+        return handler.respond(uri);
+      }
     }
-    else if (uri.equalsIgnoreCase("/hello")) {
-      return "Hello, world";
-    } else {
-      return "";
-    }
+    return "";
   }
 
   String contentType(String uri) {

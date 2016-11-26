@@ -17,7 +17,7 @@ public class ConnectionHandlerTest {
   }
 
   @After
-  public void tearDown() {
+  public void tearDown() throws Exception  {
     server.stop();
   }
 
@@ -44,15 +44,6 @@ public class ConnectionHandlerTest {
     assertEquals("foo", mockSocket.storedOutput);
   }
 
-  private String bufToString(BufferedReader toRead) throws IOException {
-    String line;
-    StringBuilder requestString = new StringBuilder();
-    while ((line = toRead.readLine()) != null) {
-      requestString.append(line);
-    }
-    return requestString.toString();
-  }
-
   private void startServer() {
     int portNumber = 8080;
     try {
@@ -60,5 +51,14 @@ public class ConnectionHandlerTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private String bufToString(BufferedReader toRead) throws IOException {
+    String line;
+    StringBuilder requestString = new StringBuilder();
+    while ((line = toRead.readLine()) != null) {
+      requestString.append(line);
+    }
+    return requestString.toString();
   }
 }

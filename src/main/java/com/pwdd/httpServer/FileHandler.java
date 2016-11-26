@@ -4,11 +4,31 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class FileHandler {
-  private File directory;
+class FileHandler implements IHandler {
+  private final File directory;
 
   FileHandler(String dirName) {
     this.directory = new File(dirName);
+  }
+
+  public String respond(String uri) {
+    return index();
+  }
+
+  public boolean canRespond(String uri) {
+    return !uri.equalsIgnoreCase("/hello");
+  }
+
+  private String index() {
+    String content = "";
+    return content + "<!doctype html>" +
+        "<html>" +
+        "<head><title>index</title></head>" +
+        "<body>" +
+        "<h1>Index:</h1>" +
+        linkfyDir(listFilenames()) +
+        "</body>" +
+        "</html>";
   }
 
   List<String> listFilenames() {
@@ -36,17 +56,5 @@ class FileHandler {
       listItems.append("</a></li>");
     }
     return startList + listItems + endList;
-  }
-
-  String index() {
-    String content = "";
-    return content + "<!doctype html>" +
-        "<html>" +
-        "<head><title>index</title></head>" +
-        "<body>" +
-        "<h1>Index:</h1>" +
-        linkfyDir(listFilenames()) +
-        "</body>" +
-        "</html>";
   }
 }

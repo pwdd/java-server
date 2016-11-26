@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 final class ArgumentsValidation {
-  static String defaultDir = "./foo";
-  static String defaultPortNumber = "8080";
+  static final String defaultDir = "./foo";
+  static final String defaultPortNumber = "8080";
 
   private ArgumentsValidation() {}
 
@@ -17,7 +17,7 @@ final class ArgumentsValidation {
   }
 
   static Boolean isValidArgs(String[] args) {
-    return args.length == 0 || ((startsWithFlag(args) && !sameArg(args)) && hasPortOrDir(args));
+    return args.length == 0 || ((startsWithFlag(args) && !sameArg(args)) && hasPortOrDir(args) && hasValidPort(args)) ;
   }
 
   private static Boolean startsWithFlag(String[] args) {
@@ -39,6 +39,15 @@ final class ArgumentsValidation {
     return (args.length == 2 || args.length == 4) &&
         getIndexOf(args, "-d") != -1 &&
         getIndexOf(args, "-p") != -1;
+  }
+
+  private static Boolean hasValidPort(String[] args) {
+    List<String> argsList = Arrays.asList(args);
+    if (argsList.contains("-p")) {
+      return isValidPortNumber(getPortNumber(args));
+    } else {
+      return true;
+    }
   }
 
   static String getDirectory(String[] args) {

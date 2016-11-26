@@ -4,14 +4,13 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerTest {
-  private int portNumber = 8080;
-  private String hostName = "localhost";
+  private final int portNumber = 8080;
+  private final String hostName = "localhost";
   private Server server;
   private Thread thread;
 
@@ -29,7 +28,7 @@ public class ServerTest {
   }
 
   @Test
-  public void acceptsConnection() {
+  public void acceptsConnection() throws Exception  {
     try (Socket client = new Socket(hostName, portNumber)) {
       assertTrue("Server accepts connection when serverSocket is listening", client.isConnected());
     } catch (Exception e) {

@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 final class RequestParser {
-  private static final String crlf = "\r\n";
-
   private RequestParser() {}
 
   static HashMap<String, String> header(BufferedReader in) throws IOException {
@@ -26,17 +24,7 @@ final class RequestParser {
     return headerMap;
   }
 
-  private static String bufToString(BufferedReader in) throws IOException {
-    StringBuilder builder = new StringBuilder();
-    String line;
-
-    while ((line = in.readLine()) != null && !line.equals("")) {
-      builder.append(line + crlf);
-    }
-    return builder.toString();
-  }
-
-  private static String[] stringToStringArray(String in) throws IOException {
+  private static String[] stringToStringArray(String in) {
     return in.split("\\r\\n");
   }
 
@@ -47,5 +35,16 @@ final class RequestParser {
     map.put("URI", firstLineList[1]);
     map.put("Protocol", firstLineList[2]);
     return map;
+  }
+
+  private static String bufToString(BufferedReader in) throws IOException {
+    String crlf = "\r\n";
+    StringBuilder builder = new StringBuilder();
+    String line;
+
+    while ((line = in.readLine()) != null && !line.equals("")) {
+      builder.append(line + crlf);
+    }
+    return builder.toString();
   }
 }

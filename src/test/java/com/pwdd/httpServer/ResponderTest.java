@@ -7,9 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ResponderTest {
-  private Responder response = new Responder("foo");
-  private String header = response.defaultHeader("text/plain");
-  private List<String> headerList = Arrays.asList(header.split("\\s"));
+  private final Responder response = new Responder(
+      new IHandler[] { new HelloWorldHandler(), new FileHandler("foo") });
+  private final String header = response.defaultHeader("text/plain");
+  private final List<String> headerList = Arrays.asList(header.split("\\s"));
 
   @Test
   public void responseHeaderHasProtocolVersion() {
