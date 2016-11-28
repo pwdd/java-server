@@ -16,7 +16,9 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    server = new Server();
+    IHandler[] handlers = new IHandler[] { new FileHandler("foo"), new HelloWorldHandler() };
+    Responder responder = new Responder(handlers);
+    server = new Server(portNumber, responder);
     thread = new Thread(server);
     thread.start();
   }

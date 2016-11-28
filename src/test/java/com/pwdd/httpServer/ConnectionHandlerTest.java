@@ -10,10 +10,13 @@ import java.io.IOException;
 
 public class ConnectionHandlerTest {
   private Server server;
+  private int portNumber = 8080;
 
   @Before
   public void setUp() {
-    server = new Server();
+    IHandler[] handlers = new IHandler[] { new FileHandler("foo"), new HelloWorldHandler() };
+    Responder responder = new Responder(handlers);
+    server = new Server(portNumber, responder);
   }
 
   @After
@@ -45,7 +48,6 @@ public class ConnectionHandlerTest {
   }
 
   private void startServer() {
-    int portNumber = 8080;
     try {
       server.listenAt(portNumber);
     } catch (Exception e) {

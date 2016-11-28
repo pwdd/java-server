@@ -6,7 +6,6 @@ import java.net.Socket;
 class Server implements Runnable {
   private ServerSocket serverSocket;
   private Socket socket;
-  private String rootDirectory;
   private final int portNumber;
   private Boolean started = false;
   private ConnectionHandler connectionHandler;
@@ -15,12 +14,6 @@ class Server implements Runnable {
   Server(int _portNumber, Responder _responder) {
     this.portNumber = _portNumber;
     this.responder = _responder;
-  }
-
-  Server() {
-    String rootDirectory = "foo";
-    this.portNumber = 8080;
-    this.responder = new Responder(rootDirectory);
   }
 
   void listenAt(int portNumber) throws Exception {

@@ -18,6 +18,10 @@ class Responder {
     this.handlers = handlers;
   }
 
+  String response(String uri) {
+    return defaultHeader(contentType(uri)) + bodyForRequested(uri);
+  }
+
   String defaultHeader(String contentType) {
     String crlf = "\r\n";
     return "HTTP/1.1 200 OK" + crlf +

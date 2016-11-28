@@ -29,7 +29,7 @@ class ConnectionHandler implements Runnable {
   public void run() {
     try {
       String uri = RequestParser.header(getRequestFrom(socket)).get("URI");
-      String response = responder.defaultHeader(responder.contentType(uri)) + responder.bodyForRequested(uri);
+      String response = responder.response(uri);
       sendResponseTo(socket, response);
       socket.close();
     } catch (Exception e) {
