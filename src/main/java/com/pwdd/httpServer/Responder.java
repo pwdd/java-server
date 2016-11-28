@@ -7,13 +7,6 @@ import java.time.format.DateTimeFormatter;
 class Responder {
   private final IHandler[] handlers;
 
-  Responder(String dir) {
-    this.handlers = new IHandler[] {
-        new HelloWorldHandler(),
-        new FileHandler(dir)
-    };
-  }
-
   Responder(IHandler[] handlers) {
     this.handlers = handlers;
   }
