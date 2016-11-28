@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ResponderTest {
   private final Responder response = new Responder(
-      new IHandler[] { new HelloWorldHandler(), new FileHandler("foo") });
+      new IRouter[] { new HelloWorldRouter(), new FileRouter("foo") });
   private final String header = response.defaultHeader("text/plain");
   private final List<String> headerList = Arrays.asList(header.split("\\s"));
 

@@ -9,7 +9,7 @@ class Server implements Runnable {
   private final int portNumber;
   private Boolean started = false;
   private ConnectionHandler connectionHandler;
-  final Responder responder;
+  private final Responder responder;
 
   Server(int _portNumber, Responder _responder) {
     this.portNumber = _portNumber;

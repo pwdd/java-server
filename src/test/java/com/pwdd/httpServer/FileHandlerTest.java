@@ -12,14 +12,14 @@ public class FileHandlerTest {
 
   @Test
   public void listFilenamesTest() {
-    FileHandler fileHandler = new FileHandler("src/test/java/com/pwdd/httpServer/testFilesOne");
+    FileRouter fileHandler = new FileRouter("src/test/java/com/pwdd/httpServer/testFilesOne");
     List<String> expected = Arrays.asList("a.html", "b.html");
     assertTrue("Lists files inside a directory", expected.equals(fileHandler.listFilenames()));
   }
 
   @Test
   public void listFilenamesInEmptyDirTest() {
-    FileHandler fileHandler = new FileHandler("src/test/java/com/pwdd/httpServer/testFilesTwo");
+    FileRouter fileHandler = new FileRouter("src/test/java/com/pwdd/httpServer/testFilesTwo");
     List<String> expected = new ArrayList<>();
     assertTrue("Returns empty list if directory is empty", expected.equals(fileHandler.listFilenames()));
   }

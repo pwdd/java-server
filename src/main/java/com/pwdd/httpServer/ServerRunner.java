@@ -11,11 +11,11 @@ final class ServerRunner {
     return ArgumentsValidation.getDirectory(args);
   }
 
-  private static IHandler[] createHandlers(String rootDirectory) {
-    return new IHandler[] { new HelloWorldHandler(), new FileHandler(rootDirectory) };
+  private static IRouter[] createHandlers(String rootDirectory) {
+    return new IRouter[] { new HelloWorldRouter(), new FileRouter(rootDirectory) };
   }
 
-  private static Responder createResponder(IHandler[] handlers) {
+  private static Responder createResponder(IRouter[] handlers) {
     return new Responder(handlers);
   }
 

@@ -4,19 +4,23 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class FileHandler implements IHandler {
+class FileRouter implements IRouter {
   private final File directory;
 
-  FileHandler(String dirName) {
+  FileRouter(String dirName) {
     this.directory = new File(dirName);
   }
 
-  public String respond(String uri) {
+  public String respond() {
     return index();
   }
 
   public boolean canRespond(String uri) {
     return !uri.equalsIgnoreCase("/hello");
+  }
+
+  public String setContentType() {
+    return "text/html";
   }
 
   private String index() {

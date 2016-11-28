@@ -16,7 +16,7 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    IHandler[] handlers = new IHandler[] { new FileHandler("foo"), new HelloWorldHandler() };
+    IRouter[] handlers = new IRouter[] { new FileRouter("foo"), new HelloWorldRouter() };
     Responder responder = new Responder(handlers);
     server = new Server(portNumber, responder);
     thread = new Thread(server);

@@ -5,39 +5,40 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 class Responder {
-  private final IHandler[] handlers;
+  private final IRouter[] routers;
 
-  Responder(IHandler[] handlers) {
-    this.handlers = handlers;
+  Responder(IRouter[] routers) {
+    this.routers = routers;
   }
 
   String response(String uri) {
-    return defaultHeader(contentType(uri)) + bodyForRequested(uri);
+    return defaultHeader(uri) + bodyForRequested(uri);
   }
 
-  String defaultHeader(String contentType) {
+  String defaultHeader(String uri) {
     String crlf = "\r\n";
     return "HTTP/1.1 200 OK" + crlf +
         "Date: " + getDateInUTC0() + crlf +
-        "Content-Type: " + contentType + crlf +
+        "Content-Type: " + contentType(uri) + crlf +
         crlf;
   }
 
   String bodyForRequested(String uri) {
-    for (IHandler handler : this.handlers) {
+    for (IRouter handler : this.routers) {
       if (handler.canRespond(uri)) {
-        return handler.respond(uri);
+        return handler.respond();
       }
     }
     return "";
   }
 
   String contentType(String uri) {
-    if (uri.equals("/")) {
-      return "text/html";
-    } else {
-      return "text/plain";
+    for (IRouter handler : this.routers) {
+      if (handler.canRespond(uri)) {
+        return handler.setContentType();
+      }
     }
+    return "";
   }
 
   private String getDateInUTC0() {

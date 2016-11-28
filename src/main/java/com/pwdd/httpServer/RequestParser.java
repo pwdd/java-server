@@ -43,7 +43,7 @@ final class RequestParser {
     String line;
 
     while ((line = in.readLine()) != null && !line.equals("")) {
-      builder.append(line + crlf);
+      builder.append(line).append(crlf);
     }
     return builder.toString();
   }

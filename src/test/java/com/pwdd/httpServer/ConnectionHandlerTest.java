@@ -11,11 +11,11 @@ import java.io.IOException;
 public class ConnectionHandlerTest {
   private Server server;
   private int portNumber = 8080;
+  private IRouter[] handlers = new IRouter[] { new FileRouter("foo"), new HelloWorldRouter() };
+  private Responder responder = new Responder(handlers);
 
   @Before
   public void setUp() {
-    IHandler[] handlers = new IHandler[] { new FileHandler("foo"), new HelloWorldHandler() };
-    Responder responder = new Responder(handlers);
     server = new Server(portNumber, responder);
   }
 
@@ -28,7 +28,7 @@ public class ConnectionHandlerTest {
   public void acceptsRequest() throws IOException {
     startServer();
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, server.responder);
+    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, responder);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
     String expected = request.replace("\r\n", "");
     mockSocket.setRequestString(request);
@@ -41,7 +41,7 @@ public class ConnectionHandlerTest {
     startServer();
 
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, server.responder);
+    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, responder);
     connectionHandler.sendResponseTo(mockSocket, "foo");
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
