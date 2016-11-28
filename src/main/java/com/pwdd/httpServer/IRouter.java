@@ -3,7 +3,7 @@ package com.pwdd.httpServer;
 interface IRouter {
   boolean canRespond(String uri);
 
-  String respond();
+  String header(String date);
 
-  String setContentType();
+  String body();
 }

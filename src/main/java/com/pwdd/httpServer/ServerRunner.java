@@ -12,7 +12,7 @@ final class ServerRunner {
   }
 
   private static IRouter[] createHandlers(String rootDirectory) {
-    return new IRouter[] { new HelloWorldRouter(), new FileRouter(rootDirectory) };
+    return new IRouter[] { new HelloWorldRouter(), new IndexRouter(rootDirectory) };
   }
 
   private static Responder createResponder(IRouter[] handlers) {

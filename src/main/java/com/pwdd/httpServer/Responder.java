@@ -12,38 +12,22 @@ class Responder {
   }
 
   String response(String uri) {
-    return defaultHeader(uri) + bodyForRequested(uri);
-  }
-
-  String defaultHeader(String uri) {
-    String crlf = "\r\n";
-    return "HTTP/1.1 200 OK" + crlf +
-        "Date: " + getDateInUTC0() + crlf +
-        "Content-Type: " + contentType(uri) + crlf +
-        crlf;
-  }
-
-  String bodyForRequested(String uri) {
-    for (IRouter handler : this.routers) {
-      if (handler.canRespond(uri)) {
-        return handler.respond();
+    for (IRouter router : this.routers) {
+      if (router.canRespond(uri)) {
+        return router.header(dateInUTC0()) + router.body();
       }
     }
-    return "";
+    return notFound();
   }
 
-  String contentType(String uri) {
-    for (IRouter handler : this.routers) {
-      if (handler.canRespond(uri)) {
-        return handler.setContentType();
-      }
-    }
-    return "";
-  }
-
-  private String getDateInUTC0() {
+  private String dateInUTC0() {
     ZonedDateTime date = ZonedDateTime.now(ZoneOffset.UTC);
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
     return dateFormat.format(date);
+  }
+
+  private String notFound() {
+    String crlf = "\r\n";
+    return "HTTP/1.1 404 Not Found" + crlf + "Date: " + dateInUTC0() + crlf + crlf + "404 Not Found";
   }
 }

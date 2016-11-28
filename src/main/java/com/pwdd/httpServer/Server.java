@@ -7,7 +7,7 @@ class Server implements Runnable {
   private ServerSocket serverSocket;
   private Socket socket;
   private final int portNumber;
-  private Boolean started = false;
+  private Boolean listening = false;
   private ConnectionHandler connectionHandler;
   private final Responder responder;
 
@@ -30,11 +30,11 @@ class Server implements Runnable {
 
   @Override
   public void run() {
-    started = true;
+    listening = true;
 
     try {
       listenAt(portNumber);
-      while(started) {
+      while(listening) {
         openConnection();
         startConnectionHandler();
         connectionHandler.run();
@@ -46,6 +46,6 @@ class Server implements Runnable {
 
   void stop() throws Exception {
     serverSocket.close();
-    started = false;
+    listening = false;
   }
 }

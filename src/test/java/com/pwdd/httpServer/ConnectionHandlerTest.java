@@ -11,7 +11,7 @@ import java.io.IOException;
 public class ConnectionHandlerTest {
   private Server server;
   private int portNumber = 8080;
-  private IRouter[] handlers = new IRouter[] { new FileRouter("foo"), new HelloWorldRouter() };
+  private IRouter[] handlers = new IRouter[] { new IndexRouter("foo"), new HelloWorldRouter() };
   private Responder responder = new Responder(handlers);
 
   @Before

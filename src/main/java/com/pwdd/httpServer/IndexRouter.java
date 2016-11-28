@@ -4,23 +4,28 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class FileRouter implements IRouter {
+class IndexRouter implements IRouter {
   private final File directory;
 
-  FileRouter(String dirName) {
+  IndexRouter(String dirName) {
     this.directory = new File(dirName);
   }
 
-  public String respond() {
-    return index();
-  }
-
   public boolean canRespond(String uri) {
-    return !uri.equalsIgnoreCase("/hello");
+    return uri.equalsIgnoreCase("/");
   }
 
-  public String setContentType() {
-    return "text/html";
+  public String header(String date) {
+    String contentType = "text/html";
+    String crlf = "\r\n";
+    return "HTTP/1.1 200 OK" + crlf +
+        "Date: " + date + crlf +
+        "Content-Type: " + contentType + crlf +
+        crlf;
+  }
+
+  public String body() {
+    return index();
   }
 
   private String index() {
