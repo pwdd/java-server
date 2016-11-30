@@ -16,9 +16,9 @@ class ConnectionManager implements Runnable {
     return new BufferedReader(new InputStreamReader(socket.getInputStream()));
   }
 
-  void sendResponseTo(Socket socket, String response) throws IOException {
-    PrintWriter out = new PrintWriter(socket.getOutputStream());
-    out.print(response);
+  void sendResponseTo(Socket socket, byte[] response) throws IOException {
+    OutputStream out = socket.getOutputStream();
+    out.write(response);
     out.flush();
   }
 
@@ -26,7 +26,7 @@ class ConnectionManager implements Runnable {
   public void run() {
     try {
       String uri = RequestParser.header(getRequestFrom(socket)).get("URI");
-      String response = this.response.response(uri);
+      byte[] response = this.response.response(uri);
       sendResponseTo(socket, response);
       socket.close();
     } catch (Exception e) {

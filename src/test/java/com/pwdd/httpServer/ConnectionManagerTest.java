@@ -42,7 +42,7 @@ public class ConnectionManagerTest {
 
     MockSocket mockSocket = new MockSocket();
     ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
-    connectionManager.sendResponseTo(mockSocket, "foo");
+    connectionManager.sendResponseTo(mockSocket, "foo".getBytes());
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
   }

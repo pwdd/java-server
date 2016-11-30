@@ -10,19 +10,19 @@ class DownloadableResponder implements IResponder {
     return isDownloadable(uriToFile(uri));
   }
 
-  public String header(String date) {
+  public byte[] header(String date) {
     String contentType = "application/octet-stream";
     String contentDisposition = "attachment";
     String crlf = "\r\n";
-    return "HTTP/1.1 200 OK" + crlf +
+    return ("HTTP/1.1 200 OK" + crlf +
         "Date: " + date + crlf +
         "Content-Type: " + contentType + crlf +
         "Content-Disposition: " + contentDisposition + crlf +
-        crlf;
+        crlf).getBytes();
   }
 
-  public String body() {
-    return "downloadable";
+  public byte[] body() {
+    return "downloadable".getBytes();
   }
 
   boolean isDownloadable(File file) {

@@ -6,16 +6,16 @@ class HelloWorldResponder implements IResponder {
     return uri.matches("(?i:.*^/hello/?$.*)");
   }
 
-  public String header(String date) {
+  public byte[] header(String date) {
     String contentType = "text/plain";
     String crlf = "\r\n";
-    return "HTTP/1.1 200 OK" + crlf +
+    return ("HTTP/1.1 200 OK" + crlf +
         "Date: " + date + crlf +
         "Content-Type: " + contentType + crlf +
-        crlf;
+        crlf).getBytes();
   }
 
-  public String body() {
-    return "Hello, world";
+  public byte[] body() {
+    return "Hello, world".getBytes();
   }
 }

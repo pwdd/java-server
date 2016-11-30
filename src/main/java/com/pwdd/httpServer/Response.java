@@ -11,13 +11,21 @@ class Response {
     this.routers = routers;
   }
 
-  String response(String uri) {
+  byte[] response(String uri) {
     for (IResponder router : this.routers) {
       if (router.canRespond(uri)) {
-        return router.header(dateInUTC0()) + router.body();
+        return combineResponse(router.header(dateInUTC0()), router.body());
       }
     }
-    return notFound();
+    return notFound().getBytes();
+  }
+
+  private byte[] combineResponse(byte[] header, byte[] body) {
+    byte[] combined = new byte[header.length + body.length];
+    for (int i = 0; i < combined.length; i++) {
+      combined[i] = i < header.length ? header[i] :  body[i - header.length];
+    }
+    return combined;
   }
 
   private String dateInUTC0() {
