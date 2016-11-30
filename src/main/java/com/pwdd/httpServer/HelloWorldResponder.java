@@ -15,7 +15,7 @@ class HelloWorldResponder implements IResponder {
         crlf).getBytes();
   }
 
-  public byte[] body() {
+  public byte[] body(String uri) {
     return "Hello, world".getBytes();
   }
 }

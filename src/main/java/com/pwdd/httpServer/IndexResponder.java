@@ -24,7 +24,7 @@ class IndexResponder implements IResponder {
         crlf).getBytes();
   }
 
-  public byte[] body() {
+  public byte[] body(String uri) {
     return index().getBytes();
   }
 

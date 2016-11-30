@@ -5,5 +5,5 @@ interface IResponder {
 
   byte[] header(String date);
 
-  byte[] body();
+  byte[] body(String uri);
 }

@@ -14,7 +14,7 @@ class Response {
   byte[] response(String uri) {
     for (IResponder router : this.routers) {
       if (router.canRespond(uri)) {
-        return combineResponse(router.header(dateInUTC0()), router.body());
+        return combineResponse(router.header(dateInUTC0()), router.body(uri));
       }
     }
     return notFound().getBytes();

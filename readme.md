@@ -18,7 +18,7 @@ README
 
 - Possible options: 
     - Valid ports: from 1 to 65535
-    - Easy to access directories: "./foo" and "/.bar"
+    - Easy to access directories: "./foo" and "./bar"
 
 - Quitting the server: `CTRL+C`
 
