@@ -12,7 +12,7 @@ final class ServerRunner {
   }
 
   private static IResponder[] createHandlers(String rootDirectory) {
-    return new IResponder[] { new HelloWorldResponder(), new IndexResponder(rootDirectory) };
+    return new IResponder[] { new HelloWorldResponder(), new IndexResponder(rootDirectory), new DownloadableResponder() };
   }
 
   private static Response createResponder(IResponder[] handlers) {

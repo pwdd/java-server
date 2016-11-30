@@ -2,19 +2,20 @@ package com.pwdd.httpServer;
 
 import org.junit.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
-public class IndexRouterTest {
+public class IndexResponderTest {
 
   @Test
   public void listFilenamesTest() {
     IndexResponder fileHandler = new IndexResponder("src/test/java/com/pwdd/httpServer/testFilesOne");
-    List<String> expected = Arrays.asList("a.html", "b.html");
-    assertTrue("Lists files inside a directory", expected.equals(fileHandler.listFilenames()));
+    List<String> expected = Arrays.asList("nest", "a.html", "b.html");
+    Collections.sort(expected);
+    List<String> actual = fileHandler.listFilenames();
+    Collections.sort(actual);
+    assertEquals("Lists files inside a directory", expected, actual);
   }
 
   @Test

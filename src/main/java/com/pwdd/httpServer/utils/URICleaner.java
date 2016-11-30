@@ -3,7 +3,7 @@ package com.pwdd.httpServer.utils;
 public final class URICleaner {
   private URICleaner() {}
 
-  static String cleanUp(String uri) {
+  public static String cleanUp(String uri) {
     if (uri.equals("/")) {
       return uri;
     } else if (uri.startsWith("/") && !uri.endsWith("/")) {

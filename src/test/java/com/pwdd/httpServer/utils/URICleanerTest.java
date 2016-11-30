@@ -26,6 +26,7 @@ public class URICleanerTest {
 
   @Test
   public void cleanNestedURITest() {
-    assertEquals("Trims out only leading and trailing slashes", "foo/bar", URICleaner.cleanUp("/foo/bar"));
+    assertEquals("Trims out only leading and trailing slashes",
+        "foo/bar", URICleaner.cleanUp("/foo/bar"));
   }
 }
