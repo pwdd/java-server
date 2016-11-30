@@ -1,4 +1,4 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.responders;
 
 import com.pwdd.httpServer.utils.URICleaner;
 
@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-class DownloadableResponder implements IResponder {
+public class DownloadableResponder implements IResponder {
 
   public boolean canRespond(String uri) {
     return isDownloadable(uriToFile(uri));

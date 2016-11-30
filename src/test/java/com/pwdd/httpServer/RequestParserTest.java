@@ -16,7 +16,7 @@ public class RequestParserTest {
         "ConnectionManager: keep-alive\r\n\r\n";
     InputStream is = new ByteArrayInputStream(request.getBytes());
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
-    HashMap<String, String> expected = new HashMap();
+    HashMap<String, String> expected = new HashMap<>();
     expected.put("Method", "GET");
     expected.put("URI", "/");
     expected.put("Protocol", "HTTP/1.1");

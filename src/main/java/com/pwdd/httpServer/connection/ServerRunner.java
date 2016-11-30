@@ -1,6 +1,13 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.connection;
 
-final class ServerRunner {
+import com.pwdd.httpServer.Response;
+import com.pwdd.httpServer.responders.DownloadableResponder;
+import com.pwdd.httpServer.responders.HelloWorldResponder;
+import com.pwdd.httpServer.responders.IResponder;
+import com.pwdd.httpServer.responders.IndexResponder;
+import com.pwdd.httpServer.utils.ArgumentsValidation;
+
+public final class ServerRunner {
   private ServerRunner() {}
 
   private static int getPortNumber(String[] args) {
@@ -19,7 +26,7 @@ final class ServerRunner {
     return new Response(handlers);
   }
 
-  static void start(String[] args) {
+  public static void start(String[] args) {
     ArgumentsValidation.exitOnInvalidArgs(args);
     String dirName = getRootDirectory(args);
     int portNumber = getPortNumber(args);

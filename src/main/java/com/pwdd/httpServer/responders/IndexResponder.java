@@ -1,13 +1,13 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.responders;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class IndexResponder implements IResponder {
+public class IndexResponder implements IResponder {
   private final File directory;
 
-  IndexResponder(String dirName) {
+  public IndexResponder(String dirName) {
     this.directory = new File(dirName);
   }
 

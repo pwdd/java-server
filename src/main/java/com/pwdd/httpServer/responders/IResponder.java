@@ -1,6 +1,6 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.responders;
 
-interface IResponder {
+public interface IResponder {
   boolean canRespond(String uri);
 
   byte[] header(String date);

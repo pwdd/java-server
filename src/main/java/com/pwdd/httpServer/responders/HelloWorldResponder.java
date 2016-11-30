@@ -1,6 +1,6 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.responders;
 
-class HelloWorldResponder implements IResponder {
+public class HelloWorldResponder implements IResponder {
 
   public boolean canRespond(String uri) {
     return uri.matches("(?i:.*^/hello/?$.*)");

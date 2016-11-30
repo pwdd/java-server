@@ -1,5 +1,11 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.connection;
 
+import com.pwdd.httpServer.Response;
+import com.pwdd.httpServer.connection.ConnectionManager;
+import com.pwdd.httpServer.connection.Server;
+import com.pwdd.httpServer.responders.HelloWorldResponder;
+import com.pwdd.httpServer.responders.IResponder;
+import com.pwdd.httpServer.responders.IndexResponder;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
@@ -10,9 +16,9 @@ import java.io.IOException;
 
 public class ConnectionManagerTest {
   private Server server;
-  private int portNumber = 8080;
-  private IResponder[] handlers = new IResponder[] { new IndexResponder("foo"), new HelloWorldResponder() };
-  private Response response = new Response(handlers);
+  private final int portNumber = 8080;
+  private final IResponder[] handlers = new IResponder[] { new IndexResponder("foo"), new HelloWorldResponder() };
+  private final Response response = new Response(handlers);
 
   @Before
   public void setUp() {

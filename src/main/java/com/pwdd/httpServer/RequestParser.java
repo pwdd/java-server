@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-final class RequestParser {
+public final class RequestParser {
   private RequestParser() {}
 
-  static HashMap<String, String> header(BufferedReader in) throws IOException {
+  public static HashMap<String, String> header(BufferedReader in) throws IOException {
     HashMap<String, String> headerMap = new HashMap<>();
     String requestString = bufToString(in);
     String[] requestArray = stringToStringArray(requestString);
@@ -28,13 +28,12 @@ final class RequestParser {
     return in.split("\\r\\n");
   }
 
-  private static HashMap<String, String> parseFirstLine(HashMap<String, String> map, String firstLine) {
+  private static void parseFirstLine(HashMap<String, String> map, String firstLine) {
     String[] firstLineList = firstLine.split("\\s");
 
     map.put("Method", firstLineList[0]);
     map.put("URI", firstLineList[1]);
     map.put("Protocol", firstLineList[2]);
-    return map;
   }
 
   private static String bufToString(BufferedReader in) throws IOException {

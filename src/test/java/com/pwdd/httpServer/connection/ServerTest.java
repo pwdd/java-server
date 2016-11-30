@@ -1,5 +1,9 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.connection;
 
+import com.pwdd.httpServer.Response;
+import com.pwdd.httpServer.responders.HelloWorldResponder;
+import com.pwdd.httpServer.responders.IResponder;
+import com.pwdd.httpServer.responders.IndexResponder;
 import org.junit.*;
 import static org.junit.Assert.*;
 

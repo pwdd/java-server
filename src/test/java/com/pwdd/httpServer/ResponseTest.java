@@ -1,5 +1,8 @@
 package com.pwdd.httpServer;
 
+import com.pwdd.httpServer.responders.HelloWorldResponder;
+import com.pwdd.httpServer.responders.IResponder;
+import com.pwdd.httpServer.responders.IndexResponder;
 import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;

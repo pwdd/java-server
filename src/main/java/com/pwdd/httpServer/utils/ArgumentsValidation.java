@@ -1,15 +1,15 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.utils;
 
 import java.util.Arrays;
 import java.util.List;
 
-final class ArgumentsValidation {
+public final class ArgumentsValidation {
   static final String defaultDir = "./foo";
   static final String defaultPortNumber = "8080";
 
   private ArgumentsValidation() {}
 
-  static void exitOnInvalidArgs(String[] args) {
+  public static void exitOnInvalidArgs(String[] args) {
     if (!isValidArgs(args) || !isValidPortNumber(getPortNumber(args))) {
       System.out.println("invalid arguments");
       System.exit(0);
@@ -50,11 +50,11 @@ final class ArgumentsValidation {
     }
   }
 
-  static String getDirectory(String[] args) {
+  public static String getDirectory(String[] args) {
     return getArg(args, "-d", defaultDir);
   }
 
-  static String getPortNumber(String[] args) {
+  public static String getPortNumber(String[] args) {
     return getArg(args, "-p", defaultPortNumber);
   }
 

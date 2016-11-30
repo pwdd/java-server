@@ -1,4 +1,4 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.utils;
 
 import org.junit.Assert;
 import org.junit.Rule;

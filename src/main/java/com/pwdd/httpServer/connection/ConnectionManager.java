@@ -1,4 +1,7 @@
-package com.pwdd.httpServer;
+package com.pwdd.httpServer.connection;
+
+import com.pwdd.httpServer.RequestParser;
+import com.pwdd.httpServer.Response;
 
 import java.io.*;
 import java.net.Socket;

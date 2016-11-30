@@ -1,17 +1,19 @@
 package com.pwdd.httpServer;
 
+import com.pwdd.httpServer.responders.IResponder;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-class Response {
+public class Response {
   private final IResponder[] routers;
 
-  Response(IResponder[] routers) {
+  public Response(IResponder[] routers) {
     this.routers = routers;
   }
 
-  byte[] response(String uri) {
+  public byte[] response(String uri) {
     for (IResponder router : this.routers) {
       if (router.canRespond(uri)) {
         return combineResponse(router.header(dateInUTC0()), router.body(uri));
