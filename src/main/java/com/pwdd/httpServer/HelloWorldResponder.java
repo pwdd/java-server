@@ -1,9 +1,9 @@
 package com.pwdd.httpServer;
 
-class HelloWorldRouter implements IRouter {
+class HelloWorldResponder implements IResponder {
 
   public boolean canRespond(String uri) {
-    return uri.equalsIgnoreCase("/hello");
+    return uri.matches("(?i:.*^/hello/?$.*)");
   }
 
   public String header(String date) {

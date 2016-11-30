@@ -11,19 +11,19 @@ final class ServerRunner {
     return ArgumentsValidation.getDirectory(args);
   }
 
-  private static IRouter[] createHandlers(String rootDirectory) {
-    return new IRouter[] { new HelloWorldRouter(), new IndexRouter(rootDirectory) };
+  private static IResponder[] createHandlers(String rootDirectory) {
+    return new IResponder[] { new HelloWorldResponder(), new IndexResponder(rootDirectory) };
   }
 
-  private static Responder createResponder(IRouter[] handlers) {
-    return new Responder(handlers);
+  private static Response createResponder(IResponder[] handlers) {
+    return new Response(handlers);
   }
 
   static void start(String[] args) {
     ArgumentsValidation.exitOnInvalidArgs(args);
     String dirName = getRootDirectory(args);
     int portNumber = getPortNumber(args);
-    Responder responder = createResponder(createHandlers(dirName));
-    new Server(portNumber, responder).run();
+    Response response = createResponder(createHandlers(dirName));
+    new Server(portNumber, response).run();
   }
 }

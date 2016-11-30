@@ -3,13 +3,13 @@ package com.pwdd.httpServer;
 import java.io.*;
 import java.net.Socket;
 
-class ConnectionHandler implements Runnable {
+class ConnectionManager implements Runnable {
   private final Socket socket;
-  private final Responder responder;
+  private final Response response;
 
-  ConnectionHandler(Socket _socket, Responder _responder) {
+  ConnectionManager(Socket _socket, Response _response) {
     this.socket = _socket;
-    this.responder = _responder;
+    this.response = _response;
   }
 
   BufferedReader getRequestFrom(Socket socket) throws IOException {
@@ -26,7 +26,7 @@ class ConnectionHandler implements Runnable {
   public void run() {
     try {
       String uri = RequestParser.header(getRequestFrom(socket)).get("URI");
-      String response = responder.response(uri);
+      String response = this.response.response(uri);
       sendResponseTo(socket, response);
       socket.close();
     } catch (Exception e) {

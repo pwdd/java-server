@@ -8,12 +8,12 @@ class Server implements Runnable {
   private Socket socket;
   private final int portNumber;
   private Boolean listening = false;
-  private ConnectionHandler connectionHandler;
-  private final Responder responder;
+  private ConnectionManager connectionManager;
+  private final Response response;
 
-  Server(int _portNumber, Responder _responder) {
+  Server(int _portNumber, Response _response) {
     this.portNumber = _portNumber;
-    this.responder = _responder;
+    this.response = _response;
   }
 
   void listenAt(int portNumber) throws Exception {
@@ -25,7 +25,7 @@ class Server implements Runnable {
   }
 
   private void startConnectionHandler() {
-    connectionHandler = new ConnectionHandler(socket, responder);
+    connectionManager = new ConnectionManager(socket, response);
   }
 
   @Override
@@ -37,7 +37,7 @@ class Server implements Runnable {
       while(listening) {
         openConnection();
         startConnectionHandler();
-        connectionHandler.run();
+        connectionManager.run();
       }
     } catch (Exception e) {
       e.printStackTrace();

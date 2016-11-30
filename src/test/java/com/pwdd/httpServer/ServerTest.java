@@ -16,9 +16,9 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    IRouter[] handlers = new IRouter[] { new IndexRouter("foo"), new HelloWorldRouter() };
-    Responder responder = new Responder(handlers);
-    server = new Server(portNumber, responder);
+    IResponder[] handlers = new IResponder[] { new IndexResponder("foo"), new HelloWorldResponder() };
+    Response response = new Response(handlers);
+    server = new Server(portNumber, response);
     thread = new Thread(server);
     thread.start();
   }

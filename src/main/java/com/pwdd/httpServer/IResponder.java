@@ -1,6 +1,6 @@
 package com.pwdd.httpServer;
 
-interface IRouter {
+interface IResponder {
   boolean canRespond(String uri);
 
   String header(String date);

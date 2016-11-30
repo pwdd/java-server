@@ -4,15 +4,15 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-class Responder {
-  private final IRouter[] routers;
+class Response {
+  private final IResponder[] routers;
 
-  Responder(IRouter[] routers) {
+  Response(IResponder[] routers) {
     this.routers = routers;
   }
 
   String response(String uri) {
-    for (IRouter router : this.routers) {
+    for (IResponder router : this.routers) {
       if (router.canRespond(uri)) {
         return router.header(dateInUTC0()) + router.body();
       }

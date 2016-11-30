@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class IndexRouter implements IRouter {
+class IndexResponder implements IResponder {
   private final File directory;
 
-  IndexRouter(String dirName) {
+  IndexResponder(String dirName) {
     this.directory = new File(dirName);
   }
 

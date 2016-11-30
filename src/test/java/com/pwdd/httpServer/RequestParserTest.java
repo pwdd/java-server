@@ -13,7 +13,7 @@ public class RequestParserTest {
         "Host: localhost\r\n" +
         "Accept: text/html\r\n" +
         "Keep-Alive: 300\r\n" +
-        "ConnectionHandler: keep-alive\r\n\r\n";
+        "ConnectionManager: keep-alive\r\n\r\n";
     InputStream is = new ByteArrayInputStream(request.getBytes());
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
     HashMap<String, String> expected = new HashMap();
@@ -23,7 +23,7 @@ public class RequestParserTest {
     expected.put("Host", "localhost");
     expected.put("Accept", "text/html");
     expected.put("Keep-Alive", "300");
-    expected.put("ConnectionHandler", "keep-alive");
+    expected.put("ConnectionManager", "keep-alive");
 
     assertEquals(expected, RequestParser.header(br));
   }

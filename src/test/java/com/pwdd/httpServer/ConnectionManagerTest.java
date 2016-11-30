@@ -8,15 +8,15 @@ import com.pwdd.httpServer.mocks.MockSocket;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class ConnectionHandlerTest {
+public class ConnectionManagerTest {
   private Server server;
   private int portNumber = 8080;
-  private IRouter[] handlers = new IRouter[] { new IndexRouter("foo"), new HelloWorldRouter() };
-  private Responder responder = new Responder(handlers);
+  private IResponder[] handlers = new IResponder[] { new IndexResponder("foo"), new HelloWorldResponder() };
+  private Response response = new Response(handlers);
 
   @Before
   public void setUp() {
-    server = new Server(portNumber, responder);
+    server = new Server(portNumber, response);
   }
 
   @After
@@ -28,11 +28,11 @@ public class ConnectionHandlerTest {
   public void acceptsRequest() throws IOException {
     startServer();
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, responder);
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
     String expected = request.replace("\r\n", "");
     mockSocket.setRequestString(request);
-    String requested = bufToString(connectionHandler.getRequestFrom(mockSocket));
+    String requested = bufToString(connectionManager.getRequestFrom(mockSocket));
     assertEquals(expected, requested);
   }
 
@@ -41,8 +41,8 @@ public class ConnectionHandlerTest {
     startServer();
 
     MockSocket mockSocket = new MockSocket();
-    ConnectionHandler connectionHandler = new ConnectionHandler(mockSocket, responder);
-    connectionHandler.sendResponseTo(mockSocket, "foo");
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
+    connectionManager.sendResponseTo(mockSocket, "foo");
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
   }
