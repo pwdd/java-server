@@ -1,5 +1,7 @@
 package com.pwdd.httpServer;
 
+import com.pwdd.httpServer.utils.InputReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -10,7 +12,7 @@ public final class RequestParser {
 
   public static HashMap<String, String> header(BufferedReader in) throws IOException {
     HashMap<String, String> headerMap = new HashMap<>();
-    String requestString = bufToString(in);
+    String requestString = InputReader.bufToString(in);
     String[] requestArray = stringToStringArray(requestString);
     parseFirstLine(headerMap, requestArray[0]);
 
@@ -34,16 +36,5 @@ public final class RequestParser {
     map.put("Method", firstLineList[0]);
     map.put("URI", firstLineList[1]);
     map.put("Protocol", firstLineList[2]);
-  }
-
-  private static String bufToString(BufferedReader in) throws IOException {
-    String crlf = "\r\n";
-    StringBuilder builder = new StringBuilder();
-    String line;
-
-    while ((line = in.readLine()) != null && !line.equals("")) {
-      builder.append(line).append(crlf);
-    }
-    return builder.toString();
   }
 }

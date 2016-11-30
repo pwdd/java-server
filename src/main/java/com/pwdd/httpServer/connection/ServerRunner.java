@@ -1,10 +1,7 @@
 package com.pwdd.httpServer.connection;
 
 import com.pwdd.httpServer.Response;
-import com.pwdd.httpServer.responders.DownloadableResponder;
-import com.pwdd.httpServer.responders.HelloWorldResponder;
-import com.pwdd.httpServer.responders.IResponder;
-import com.pwdd.httpServer.responders.IndexResponder;
+import com.pwdd.httpServer.responders.*;
 import com.pwdd.httpServer.utils.ArgumentsValidation;
 
 public final class ServerRunner {

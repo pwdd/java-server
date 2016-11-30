@@ -1,11 +1,10 @@
 package com.pwdd.httpServer.connection;
 
 import com.pwdd.httpServer.Response;
-import com.pwdd.httpServer.connection.ConnectionManager;
-import com.pwdd.httpServer.connection.Server;
 import com.pwdd.httpServer.responders.HelloWorldResponder;
 import com.pwdd.httpServer.responders.IResponder;
 import com.pwdd.httpServer.responders.IndexResponder;
+import com.pwdd.httpServer.utils.InputReader;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
@@ -36,10 +35,10 @@ public class ConnectionManagerTest {
     MockSocket mockSocket = new MockSocket();
     ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
-    String expected = request.replace("\r\n", "");
+    String expected = request.trim();
     mockSocket.setRequestString(request);
-    String requested = bufToString(connectionManager.getRequestFrom(mockSocket));
-    assertEquals(expected, requested);
+    String requested = InputReader.bufToString(connectionManager.getRequestFrom(mockSocket));
+    assertEquals(expected, requested.trim());
   }
 
   @Test
@@ -55,18 +54,9 @@ public class ConnectionManagerTest {
 
   private void startServer() {
     try {
-      server.listenAt(portNumber);
+      server.listen();
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  private String bufToString(BufferedReader toRead) throws IOException {
-    String line;
-    StringBuilder requestString = new StringBuilder();
-    while ((line = toRead.readLine()) != null) {
-      requestString.append(line);
-    }
-    return requestString.toString();
   }
 }

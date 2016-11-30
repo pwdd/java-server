@@ -18,7 +18,7 @@ class Server implements Runnable {
     this.response = _response;
   }
 
-  void listenAt(int portNumber) throws Exception {
+  void listen() throws Exception {
     serverSocket = new ServerSocket(portNumber);
   }
 
@@ -35,7 +35,7 @@ class Server implements Runnable {
     listening = true;
 
     try {
-      listenAt(portNumber);
+      listen();
       while(listening) {
         openConnection();
         startConnectionHandler();

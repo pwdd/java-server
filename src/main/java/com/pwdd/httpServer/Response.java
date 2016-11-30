@@ -7,16 +7,16 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Response {
-  private final IResponder[] routers;
+  private final IResponder[] responders;
 
-  public Response(IResponder[] routers) {
-    this.routers = routers;
+  public Response(IResponder[] responders) {
+    this.responders = responders;
   }
 
   public byte[] response(String uri) {
-    for (IResponder router : this.routers) {
-      if (router.canRespond(uri)) {
-        return combineResponse(router.header(dateInUTC0()), router.body(uri));
+    for (IResponder responder : this.responders) {
+      if (responder.canRespond(uri)) {
+        return combineResponse(responder.header(dateInUTC0()), responder.body(uri));
       }
     }
     return notFound().getBytes();
