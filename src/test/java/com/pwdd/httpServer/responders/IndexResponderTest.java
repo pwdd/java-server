@@ -12,7 +12,7 @@ public class IndexResponderTest {
     IndexResponder fileHandler = new IndexResponder("src/test/java/com/pwdd/httpServer/mocks/testFilesOne");
     List<String> expected = Arrays.asList("nest", "a.html", "b.html");
     Collections.sort(expected);
-    List<String> actual = fileHandler.listFilenames();
+    List<String> actual = fileHandler.listFilenames("/");
     Collections.sort(actual);
     assertEquals("Lists files inside a directory", expected, actual);
   }
@@ -21,6 +21,6 @@ public class IndexResponderTest {
   public void listFilenamesInEmptyDirTest() {
     IndexResponder fileHandler = new IndexResponder("src/test/java/com/pwdd/httpServer/mocks/testFilesTwo");
     List<String> expected = new ArrayList<>();
-    assertTrue("Returns empty list if directory is empty", expected.equals(fileHandler.listFilenames()));
+    assertTrue("Returns empty list if directory is empty", expected.equals(fileHandler.listFilenames("/")));
   }
 }

@@ -1,5 +1,7 @@
 package com.pwdd.httpServer.responders;
 
+import com.pwdd.httpServer.utils.URICleaner;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ public class IndexResponder implements IResponder {
   }
 
   public boolean canRespond(String uri) {
-    return uri.equalsIgnoreCase("/");
+    return uri.equalsIgnoreCase("/") || (uriToFile(uri).isDirectory());
   }
 
   public byte[] header(String date) {
@@ -25,28 +27,45 @@ public class IndexResponder implements IResponder {
   }
 
   public byte[] body(String uri) {
-    return index().getBytes();
+    return index(uri).getBytes();
   }
 
-  private String index() {
+  private File uriToFile(String uri) {
+    String cleaned = URICleaner.cleanUp(uri);
+    return new File(cleaned);
+  }
+
+  private String index(String uri) {
     String content = "";
     return content + "<!doctype html>" +
         "<html>" +
         "<head><title>index</title></head>" +
         "<body>" +
         "<h1>Index:</h1>" +
-        linkfyDir(listFilenames()) +
+        new File(uri).isFile() +
+        linkfyDir(listFilenames(uri)) +
         "</body>" +
         "</html>";
   }
 
-  List<String> listFilenames() {
-    File[] listOfFiles = directory.listFiles();
+  List<String> listFilenames(String uri) {
+    String cleaned = URICleaner.cleanUp(uri);
+    File[] listOfFiles;
     List<String> filenames = new ArrayList<>();
+
+    if (cleaned.equals("/")) {
+      listOfFiles = directory.listFiles();
+    } else {
+      listOfFiles = new File(cleaned).listFiles();
+    }
 
     if (listOfFiles != null) {
       for (File file : listOfFiles) {
-        filenames.add(file.getName());
+        if (uri.equals("/")) {
+          filenames.add(file.getName());
+        } else {
+          filenames.add(file.getPath().replace("uri", ""));
+        }
       }
     }
     return filenames;
@@ -58,7 +77,7 @@ public class IndexResponder implements IResponder {
     StringBuilder listItems = new StringBuilder();
 
     for (String filename : filenames) {
-      listItems.append("<li><a href=\"./");
+      listItems.append("<li><a href=\"/");
       listItems.append(filename);
       listItems.append("\">");
       listItems.append(filename);
