@@ -1,4 +1,6 @@
-package com.pwdd.httpServer;
+package com.pwdd.server.server;
+
+import com.pwdd.server.responders.ResponseBuilder;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,14 +11,14 @@ class Server implements Runnable {
   private final int portNumber;
   private Boolean listening = false;
   private ConnectionManager connectionManager;
-  private final Response response;
+  private final ResponseBuilder responseBuilder;
 
-  Server(int _portNumber, Response _response) {
+  Server(int _portNumber, ResponseBuilder _responseBuilder) {
     this.portNumber = _portNumber;
-    this.response = _response;
+    this.responseBuilder = _responseBuilder;
   }
 
-  void listenAt(int portNumber) throws Exception {
+  void listen() throws Exception {
     serverSocket = new ServerSocket(portNumber);
   }
 
@@ -25,7 +27,7 @@ class Server implements Runnable {
   }
 
   private void startConnectionHandler() {
-    connectionManager = new ConnectionManager(socket, response);
+    connectionManager = new ConnectionManager(socket, responseBuilder);
   }
 
   @Override
@@ -33,7 +35,7 @@ class Server implements Runnable {
     listening = true;
 
     try {
-      listenAt(portNumber);
+      listen();
       while(listening) {
         openConnection();
         startConnectionHandler();

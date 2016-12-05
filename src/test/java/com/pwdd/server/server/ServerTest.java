@@ -1,9 +1,11 @@
-package com.pwdd.httpServer;
+package com.pwdd.server.server;
 
+import com.pwdd.server.responders.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -16,9 +18,9 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    IResponder[] handlers = new IResponder[] { new IndexResponder("foo"), new HelloWorldResponder() };
-    Response response = new Response(handlers);
-    server = new Server(portNumber, response);
+    IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
+    ResponseBuilder responseBuilder = new ResponseBuilder(handlers);
+    server = new Server(portNumber, responseBuilder);
     thread = new Thread(server);
     thread.start();
   }

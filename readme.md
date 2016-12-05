@@ -9,16 +9,14 @@ README
 
 - Creating jar file: `mvn package`
 
-- Starting the server: `java -jar target/httpServer-0.1.jar -p <port-number> -d <directory-name>` 
+- Starting the server: `java -jar target/server-0.1.jar -p <port-number> -d <directory-name>` 
     
 - Defaults:
  
     - Port: 8080 
-    - Directory: "./foo"
+    - Directory: "/foo"
 
-- Possible options: 
-    - Valid ports: from 1 to 65535
-    - Easy to access directories: "./foo" and "/.bar"
+- Valid ports: from 1 to 65535
 
 - Quitting the server: `CTRL+C`
 

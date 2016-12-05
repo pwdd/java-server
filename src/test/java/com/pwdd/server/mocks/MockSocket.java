@@ -1,4 +1,4 @@
-package com.pwdd.httpServer.mocks;
+package com.pwdd.server.mocks;
 
 import java.io.*;
 import java.net.Socket;
