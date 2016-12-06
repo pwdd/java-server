@@ -14,13 +14,13 @@ public class IndexResponderTest {
 
   @Test
   public void canRespondRootTest() {
-    assertTrue("Can respond to root uri", index.canRespond(rootDirectory.getAbsolutePath()));
+    assertTrue("Can respond to root uri", index.canRespond("/"));
   }
 
   @Test
   public void canRespondDirTest() {
     assertTrue("Can respond to uri of directories inside root directory",
-        index.canRespond(System.getProperty("user.dir") + baseDir + "/empty"));
+        index.canRespond("/empty"));
   }
 
   @Test
@@ -35,13 +35,13 @@ public class IndexResponderTest {
 
   @Test
   public void bodyForRootIsHTMLFileTest() {
-    String body = Helpers.bytesToString(index.body(rootDirectory.getAbsolutePath()));
+    String body = Helpers.bytesToString(index.body("/"));
     assertTrue("Body for root is well formatted HTML", body.toLowerCase().contains("<!doctype html>"));
   }
 
   @Test
   public void bodyHasFileLinks() {
-    String body = Helpers.bytesToString(index.body(rootDirectory + "/nested"));
+    String body = Helpers.bytesToString(index.body("/nested"));
     assertTrue("Body has file names", body.toLowerCase().contains("a.txt"));
     assertTrue("Body has all file names", body.toLowerCase().contains("b.txt"));
   }

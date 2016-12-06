@@ -9,6 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DownloadableResponder implements IResponder {
+  private File rootDirectory;
+
+  public DownloadableResponder(File _rootDirectory) {
+    this.rootDirectory = _rootDirectory;
+  }
 
   public boolean canRespond(String uri) {
     return isDownloadable(uriToFile(uri));
@@ -40,7 +45,7 @@ public class DownloadableResponder implements IResponder {
   }
 
   private File uriToFile(String uri) {
-    return new File(uri);
+    return new File(rootDirectory.getAbsolutePath(), uri);
   }
 
   private byte[] fileToByteArray(File file) throws IOException {

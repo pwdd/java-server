@@ -8,18 +8,19 @@ import java.io.File;
 import com.pwdd.server.helpers.Helpers;
 
 public class DownloadableResponderTest {
-  private final DownloadableResponder downloadableResponder = new DownloadableResponder();
+  private File rootDirectory = new File("src/test/java/com/pwdd/server/mocks/filesystem/");
+  private final DownloadableResponder downloadableResponder = new DownloadableResponder(rootDirectory);
 
   @Test
   public void canRespondToFileTest() {
     assertTrue("Can download file",
-        downloadableResponder.canRespond("src/test/java/com/pwdd/server/mocks/filesystem/nested/a.txt"));
+        downloadableResponder.canRespond("/nested/a.txt"));
   }
 
   @Test
   public void canRespondToInnerFileTest() {
     assertTrue("Can download file",
-        downloadableResponder.canRespond("src/test/java/com/pwdd/server/mocks/filesystem/a.txt"));
+        downloadableResponder.canRespond("/a.txt"));
   }
 
   @Test

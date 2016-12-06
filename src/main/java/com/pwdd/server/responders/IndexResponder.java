@@ -21,7 +21,7 @@ public class IndexResponder implements IResponder {
   }
 
   private File getFile(String uri) {
-    return new File(uri);
+    return new File(rootDirectory.getAbsolutePath(), uri);
   }
 
   public byte[] header(String date) {
@@ -36,12 +36,12 @@ public class IndexResponder implements IResponder {
     return responseHeader.getBytes();
   }
 
-  public byte[] body(String fullURI) {
-    return index(fullURI).getBytes();
+  public byte[] body(String uri) {
+    return index(uri).getBytes();
   }
 
-  private String index(String fullURI) {
-    File file = fullURI.equals("/") ? rootDirectory : getFile(fullURI);
+  private String index(String uri) {
+    File file = uri.equals("/") ? rootDirectory : getFile(uri);
     Path absolute = getAbsolutePath(file);
     Path relative = relativizePath(rootDirectory, file);
     return "<!doctype html>" +
@@ -49,7 +49,7 @@ public class IndexResponder implements IResponder {
         "<head><title>index</title></head>" +
         "<body>" +
         "<h1>Absolute path:" + absolute + "</h1>" +
-        "<h2>Relative path:" + relative + "</h2>" +
+        "<h2>Relative path: /" + relative + "</h2>" +
         linkfyDir(file) +
         "</body>" +
         "</html>";
@@ -63,7 +63,7 @@ public class IndexResponder implements IResponder {
 
     for (File file : files) {
       listItems.append("<li><a href=\"");
-      listItems.append(file.getAbsolutePath());
+      listItems.append(relativizePath(directory, file));
       listItems.append("\">");
       listItems.append(file.getName());
       listItems.append("</a></li>");

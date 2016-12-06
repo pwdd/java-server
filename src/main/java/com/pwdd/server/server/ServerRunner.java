@@ -22,7 +22,7 @@ public final class ServerRunner {
     return new IResponder[] {
         new HelloWorldResponder(),
         new IndexResponder(rootDirectory),
-        new DownloadableResponder()};
+        new DownloadableResponder(rootDirectory)};
   }
 
   private static ResponseBuilder createResponder(IResponder[] handlers) {
