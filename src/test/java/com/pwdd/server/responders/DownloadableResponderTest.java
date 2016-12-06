@@ -73,4 +73,41 @@ public class DownloadableResponderTest {
     assertFalse("Not downloadable if file does not exist", downloadableResponder.isDownloadable(file));
   }
 
+  @Test
+  public void isImageTrueTest() {
+    File[] files = new File[] {
+        new File("/foo.jpg"),
+        new File("/foo.jpeg"),
+        new File("/foo.png"),
+        new File("/foo.gif"),
+        new File("/foo.tiff")};
+    assertTrue("Is true for images formats", checkAllFiles(files));
+  }
+
+  @Test
+  public void isImageFalseTest() {
+    File file = new File("/foo.html");
+    assertFalse("Is false for non images", downloadableResponder.isImage(file));
+  }
+
+  @Test
+  public void isPdfTrueTest() {
+    File file = new File("/foo.pdf");
+    assertTrue("Is true for .pdf", downloadableResponder.isPdf(file));
+  }
+
+  @Test
+  public void isPdfFalseTest() {
+    File file = new File("/foo.png");
+    assertFalse("Is false for non .pdf", downloadableResponder.isPdf(file));
+  }
+
+  private boolean checkAllFiles(File[] files) {
+    for (File file : files) {
+      if (!downloadableResponder.isImage(file)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

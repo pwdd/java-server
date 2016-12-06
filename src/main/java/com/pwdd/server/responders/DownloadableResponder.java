@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DownloadableResponder implements IResponder {
 
@@ -34,7 +36,17 @@ public class DownloadableResponder implements IResponder {
   }
 
   boolean isDownloadable(File file) {
-    return file.isFile();
+    return file.isFile() && !isImage(file) && !isPdf(file);
+  }
+
+  boolean isImage(File file) {
+    Pattern pattern = Pattern.compile("\\.jpeg|\\.jpg|\\.png|\\.tiff|\\.gif");
+    Matcher matcher = pattern.matcher(file.getName());
+    return matcher.find();
+  }
+
+  boolean isPdf(File file) {
+    return file.getName().endsWith(".pdf");
   }
 
   private File uriToFile(String uri) {
