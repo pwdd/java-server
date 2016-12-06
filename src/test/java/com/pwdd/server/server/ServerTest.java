@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerTest {
+  private final File rootDirectory = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
   private final int portNumber = 8080;
   private final String hostName = "localhost";
   private Server server;
@@ -20,7 +21,7 @@ public class ServerTest {
   public void setUp() {
     IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
     ResponseBuilder responseBuilder = new ResponseBuilder(handlers);
-    server = new Server(portNumber, responseBuilder);
+    server = new Server(portNumber, responseBuilder, rootDirectory);
     thread = new Thread(server);
     thread.start();
   }

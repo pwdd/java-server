@@ -8,48 +8,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class DownloadableResponder implements IResponder {
-  private File rootDirectory;
+public class DownloadableResponder extends FileReader implements IResponder {
 
-  public DownloadableResponder(File _rootDirectory) {
-    this.rootDirectory = _rootDirectory;
+  public boolean canRespond(File file) {
+    return isDownloadable(file);
   }
 
-  public boolean canRespond(String uri) {
-    return isDownloadable(uriToFile(uri));
-  }
-
-  public byte[] header(String date) {
-    String contentType = "application/octet-stream";
-    String contentDisposition = "attachment";
+  public byte[] header(File file, String date) {
     return ("HTTP/1.1 200 OK" + CRLF +
         "Date: " + date + CRLF +
-        "Content-Type: " + contentType + CRLF +
-        "Content-Disposition: " + contentDisposition + CRLF +
+        "Content-Type: application/octet-stream" + CRLF +
+        "Content-Disposition: attachment" + CRLF +
         CRLF).getBytes();
-  }
-
-  public byte[] body(String uri) {
-    File file = uriToFile(uri);
-    byte[] bodyBytes = new byte[0];
-    try {
-      bodyBytes = fileToByteArray(file);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return bodyBytes;
   }
 
   boolean isDownloadable(File file) {
     return file.isFile() && !FileHandler.isImage(file) && !FileHandler.isPdf(file);
-  }
-
-  private File uriToFile(String uri) {
-    return new File(rootDirectory.getAbsolutePath(), uri);
-  }
-
-  private byte[] fileToByteArray(File file) throws IOException {
-    Path path = Paths.get(file.getAbsolutePath());
-    return Files.readAllBytes(path);
   }
 }

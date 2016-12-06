@@ -16,4 +16,9 @@ public class FileHandler {
   public static boolean isPdf(File file) {
     return file.getName().endsWith(".pdf");
   }
+
+  public static File uriToFile(String rootDirectoryPath, String uri) {
+    return new File(rootDirectoryPath, uri);
+  }
+
 }

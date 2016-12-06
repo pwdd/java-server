@@ -18,10 +18,11 @@ public class ConnectionManagerTest {
   private final int portNumber = 8080;
   private final IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
   private final ResponseBuilder response = new ResponseBuilder(handlers);
+  private final File rootDirectory = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
 
   @Before
   public void setUp() {
-    server = new Server(portNumber, response);
+    server = new Server(portNumber, response, rootDirectory);
   }
 
   @After
@@ -33,7 +34,7 @@ public class ConnectionManagerTest {
   public void acceptsRequest() throws IOException {
     startServer();
     MockSocket mockSocket = new MockSocket();
-    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response, rootDirectory);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
     String expected = request.trim();
     mockSocket.setRequestString(request);
@@ -46,7 +47,7 @@ public class ConnectionManagerTest {
     startServer();
 
     MockSocket mockSocket = new MockSocket();
-    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response);
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response, rootDirectory);
     connectionManager.sendResponseTo(mockSocket, "foo".getBytes());
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);

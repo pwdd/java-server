@@ -4,54 +4,56 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.pwdd.server.helpers.Helpers;
 
 public class DownloadableResponderTest {
-  private File rootDirectory = new File("src/test/java/com/pwdd/server/mocks/filesystem/");
-  private final DownloadableResponder downloadableResponder = new DownloadableResponder(rootDirectory);
+  private String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem/";
+  private final DownloadableResponder downloadableResponder = new DownloadableResponder();
 
   @Test
   public void canRespondToFileTest() {
-    assertTrue("Can download file",
-        downloadableResponder.canRespond("/nested/a.txt"));
+    assertTrue("Can download a file in an inner directory",
+        downloadableResponder.canRespond(new File(rootDirectoryPath, "/nested/a.txt")));
   }
 
   @Test
-  public void canRespondToInnerFileTest() {
-    assertTrue("Can download file",
-        downloadableResponder.canRespond("/a.txt"));
+  public void canRespondToRootFileTest() {
+    assertTrue("Can download file in root",
+        downloadableResponder.canRespond(new File(rootDirectoryPath,"/a.txt")));
   }
 
   @Test
   public void cannotRespondToHelloTest() {
-    assertFalse("Can download file",
-        downloadableResponder.canRespond("/hello"));
+    assertFalse("Cannot respond to '<root>/hello",
+        downloadableResponder.canRespond(new File(rootDirectoryPath,"/hello")));
   }
 
   @Test
   public void cannotRespondToRootTest() {
     File root = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
-    assertFalse("Can download file",
-        downloadableResponder.canRespond(root.getAbsolutePath()));
+    assertFalse("Cannot respond to '/'",
+        downloadableResponder.canRespond(root));
   }
 
   @Test
   public void cannotRespondToDirTest() {
-    assertFalse("Can download file",
-        downloadableResponder.canRespond("src/test/java/com/pwdd/server/mocks/filesystem/nested"));
+    assertFalse("Cannot respond to uri of a directory",
+        downloadableResponder.canRespond(new File(rootDirectoryPath)));
   }
 
   @Test
   public void headerHasRightContentTypeTest() {
-    String header = Helpers.bytesToString(downloadableResponder.header("date"));
+    String header = Helpers.bytesToString(downloadableResponder.header(new File("foo"), "date"));
     assertTrue("Content-Type is set to application/octet-stream",
         header.contains("application/octet-stream"));
   }
 
   @Test
   public void headerHasRightContentDisposition() {
-    String header = Helpers.bytesToString(downloadableResponder.header("date"));
+    String header = Helpers.bytesToString(downloadableResponder.header(new File("foo"),"date"));
     assertTrue("Content-Disposition is set to attachment",
         header.contains("Content-Disposition: attachment"));
   }

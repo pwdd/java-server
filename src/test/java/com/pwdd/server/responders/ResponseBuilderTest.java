@@ -11,8 +11,8 @@ public class ResponseBuilderTest {
   private HelloWorldResponder helloResponder = new HelloWorldResponder();
   private IndexResponder indexResponder = new IndexResponder(rootDirectory);
   private ResponseBuilder responseBuilder = new ResponseBuilder(new IResponder[]{ helloResponder, indexResponder });
-  private byte[] header = helloResponder.header("Sun 4 December 2016 13:30:30 -000");
-  private byte[] body = helloResponder.body("/hello");
+  private byte[] header = helloResponder.header(new File("foo"), "Sun 4 December 2016 13:30:30 -000");
+  private byte[] body = helloResponder.body(new File("/hello"));
 
   @Test
   public void responseHeaderIsProperlyFormatted() {
@@ -33,32 +33,32 @@ public class ResponseBuilderTest {
 
   @Test
   public void responseHeaderHasProtocolVersion() {
-    String responseString = bytesToString(responseBuilder.response("/hello"));
+    String responseString = bytesToString(responseBuilder.response(new File("/hello")));
     assertTrue("Header has HTTP version", responseString.contains("HTTP/1.1"));
   }
 
   @Test
   public void responseHeaderHasContentType() {
-    String responseString = bytesToString(responseBuilder.response("/hello"));
+    String responseString = bytesToString(responseBuilder.response(new File("/hello")));
     assertTrue("Header has Content-Type key", responseString.contains("Content-Type:"));
   }
 
   @Test
   public void responseHeaderHasDate() {
-    String responseString = bytesToString(responseBuilder.response("/hello"));
+    String responseString = bytesToString(responseBuilder.response(new File("/hello")));
     assertTrue("Header has Date key", responseString.contains("Date:"));
   }
 
   @Test
   public void bodyForRequestedHello() {
-    String responseString = bytesToString(responseBuilder.response("/hello"));
+    String responseString = bytesToString(responseBuilder.response(new File("/hello")));
     assertTrue("Body content requested root is an well formatted html file",
         responseString.contains("Hello, world"));
   }
 
   @Test
   public void setContentTypeToPlain() {
-    String responseString = bytesToString(responseBuilder.response("/hello"));
+    String responseString = bytesToString(responseBuilder.response(new File("/hello")));
     assertTrue("Content-Type is set to text/plain for /hello",
         responseString.contains("text/plain"));
   }

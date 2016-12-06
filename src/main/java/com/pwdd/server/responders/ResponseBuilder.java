@@ -1,5 +1,6 @@
 package com.pwdd.server.responders;
 
+import java.io.File;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,10 +12,10 @@ public class ResponseBuilder {
     this.responders = _responders;
   }
 
-  public byte[] response(String uri) {
-    for (IResponder responder : this.responders) {
-      if (responder.canRespond(uri)) {
-        return buildFrom(responder.header(dateInUTC0()), responder.body(uri));
+  public byte[] response(File file) {
+    for (IResponder responder : responders) {
+      if (responder.canRespond(file)) {
+        return buildFrom(responder.header(file, dateInUTC0()), responder.body(file));
       }
     }
     return notFound().getBytes();

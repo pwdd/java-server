@@ -5,33 +5,35 @@ import static org.junit.Assert.*;
 
 import com.pwdd.server.helpers.Helpers;
 
+import java.io.File;
+
 public class HelloWorldResponderTest {
   private HelloWorldResponder helloWorldResponder = new HelloWorldResponder();
-  private byte[] header = helloWorldResponder.header("/hello");
+  private byte[] header = helloWorldResponder.header(new File("foo"), "date");
 
   @Test
   public void canRespondHelloURITest() {
-    assertTrue("Can respond to uri '/hello'", helloWorldResponder.canRespond("/hello"));
+    assertTrue("Can respond to uri '/hello'", helloWorldResponder.canRespond(new File("/hello")));
   }
 
   @Test
   public void canRespondUpperCaseHelloTest() {
-    assertTrue("Can respond to uppercase uri '/HELLO", helloWorldResponder.canRespond("/HELLO"));
+    assertTrue("Can respond to uppercase uri '/HELLO", helloWorldResponder.canRespond(new File("/HELLO")));
   }
 
   @Test
   public void canRespondHelloWithTrailingSlashTest() {
-    assertTrue("Can respond to '/hello/", helloWorldResponder.canRespond("/hello/"));
+    assertTrue("Can respond to '/hello/", helloWorldResponder.canRespond(new File("/hello/")));
   }
 
   @Test
   public void cannotRespondEndHellosTest() {
-    assertFalse("Cannot respond to '/foo/hello", helloWorldResponder.canRespond("/foo/hello"));
+    assertFalse("Cannot respond to '/foo/hello", helloWorldResponder.canRespond(new File("/foo/hello")));
   }
 
   @Test
   public void cannotRespondStartHellosTest() {
-    assertFalse("Cannot respond to '/hello/foo", helloWorldResponder.canRespond("/foo/hello"));
+    assertFalse("Cannot respond to '/hello/foo", helloWorldResponder.canRespond(new File("/hello/foo")));
   }
 
   @Test
@@ -56,7 +58,7 @@ public class HelloWorldResponderTest {
 
   @Test
   public void bodyHasHellWorldTest() {
-    byte[] body = helloWorldResponder.body("/hello");
+    byte[] body = helloWorldResponder.body(new File("/hello"));
     assertTrue("Body has 'hello, world", Helpers.bytesToString(body).contains("Hello, world"));
   }
 }

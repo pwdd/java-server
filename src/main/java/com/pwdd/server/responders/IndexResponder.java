@@ -11,48 +11,38 @@ public class IndexResponder implements IResponder {
     this.rootDirectory = _rootDirectory;
   }
 
-  public boolean canRespond(String uri) {
-    return rootDirectory.exists() && (uri.equals("/") || isValidDirectory(uri));
+  public boolean canRespond(File file) {
+    return isValidDirectory(file);
   }
 
-  private boolean isValidDirectory(String uri) {
-    File file = getFile(uri);
+  private boolean isValidDirectory(File file) {
     return file.exists() && file.isDirectory();
   }
 
-  private File getFile(String uri) {
-    return new File(rootDirectory.getAbsolutePath(), uri);
-  }
-
-  public byte[] header(String date) {
-    String responseHeader = "HTTP/1.1 200 OK" +
-        CRLF +
-        "Content-Type: text/html" +
-        CRLF +
-        "Date: " +
-        date +
-        CRLF +
+  public byte[] header(File file, String date) {
+    String responseHeader = "HTTP/1.1 200 OK" + CRLF +
+        "Content-Type: text/html" + CRLF +
+        "Date: " + date + CRLF +
         CRLF;
     return responseHeader.getBytes();
   }
 
-  public byte[] body(String uri) {
-    return index(uri).getBytes();
+  public byte[] body(File file) {
+    return index(file).getBytes();
   }
 
-  private String index(String uri) {
-    File file = uri.equals("/") ? rootDirectory : getFile(uri);
-    Path absolute = getAbsolutePath(file);
+  private String index(File file) {
+    Path absolute = normalizeAbsolutePath(file);
     Path relative = relativizePath(rootDirectory, file);
-    return "<!doctype html>" +
-        "<html>" +
-        "<head><title>index</title></head>" +
-        "<body>" +
-        "<h1>Absolute path:" + absolute + "</h1>" +
-        "<h2>Relative path: /" + relative + "</h2>" +
+    return "<!doctype html><html><head><title>" +
+        relative +
+        "</title></head><body><h1>Absolute path:" +
+        absolute +
+        "</h1><h2>Relative path: /" +
+        relative +
+        "</h2>" +
         linkfyDir(file) +
-        "</body>" +
-        "</html>";
+        "</body></html>";
   }
 
   private String linkfyDir(File directory) {
@@ -62,21 +52,21 @@ public class IndexResponder implements IResponder {
     StringBuilder listItems = new StringBuilder();
 
     for (File file : files) {
-      listItems.append("<li><a href=\"");
-      listItems.append(relativizePath(directory, file));
-      listItems.append("\">");
-      listItems.append(file.getName());
-      listItems.append("</a></li>");
+      listItems.append("<li><a href=\"").
+          append(relativizePath(directory, file)).
+          append("\">").
+          append(file.getName()).
+          append("</a></li>");
     }
     return startList + listItems + endList;
   }
 
-  private Path getAbsolutePath(File file) {
+  private Path normalizeAbsolutePath(File file) {
     return Paths.get(file.getAbsolutePath()).normalize();
   }
 
   private Path relativizePath(File root, File file) {
-    Path rootPath = getAbsolutePath(root);
+    Path rootPath = normalizeAbsolutePath(root);
     Path filePath = Paths.get(file.getAbsolutePath());
     return rootPath.relativize(filePath).normalize();
   }

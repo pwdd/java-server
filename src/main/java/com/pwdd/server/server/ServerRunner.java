@@ -22,7 +22,8 @@ public final class ServerRunner {
     return new IResponder[] {
         new HelloWorldResponder(),
         new IndexResponder(rootDirectory),
-        new DownloadableResponder(rootDirectory)};
+        new DownloadableResponder(),
+        new ImageResponder()};
   }
 
   private static ResponseBuilder createResponder(IResponder[] handlers) {
@@ -34,6 +35,6 @@ public final class ServerRunner {
     File root = getRootDirectory(args);
     int portNumber = getPortNumber(args);
     ResponseBuilder responseBuilder = createResponder(createHandlers(root));
-    new Server(portNumber, responseBuilder).run();
+    new Server(portNumber, responseBuilder, root).run();
   }
 }

@@ -2,6 +2,7 @@ package com.pwdd.server.server;
 
 import com.pwdd.server.responders.ResponseBuilder;
 
+import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,10 +13,12 @@ class Server implements Runnable {
   private Boolean listening = false;
   private ConnectionManager connectionManager;
   private final ResponseBuilder responseBuilder;
+  private File rootDirectory;
 
-  Server(int _portNumber, ResponseBuilder _responseBuilder) {
+  Server(int _portNumber, ResponseBuilder _responseBuilder, File _rootDirectory) {
     this.portNumber = _portNumber;
     this.responseBuilder = _responseBuilder;
+    this.rootDirectory = _rootDirectory;
   }
 
   void listen() throws Exception {
@@ -27,7 +30,7 @@ class Server implements Runnable {
   }
 
   private void startConnectionHandler() {
-    connectionManager = new ConnectionManager(socket, responseBuilder);
+    connectionManager = new ConnectionManager(socket, responseBuilder, rootDirectory);
   }
 
   @Override
