@@ -74,40 +74,14 @@ public class DownloadableResponderTest {
   }
 
   @Test
-  public void isImageTrueTest() {
-    File[] files = new File[] {
-        new File("/foo.jpg"),
-        new File("/foo.jpeg"),
-        new File("/foo.png"),
-        new File("/foo.gif"),
-        new File("/foo.tiff")};
-    assertTrue("Is true for images formats", checkAllFiles(files));
+  public void isDownloadableImageTest() {
+    File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/jennings_bilas.jpeg");
+    assertFalse("Not downloadable if file is jpeg", downloadableResponder.isDownloadable(file));
   }
 
   @Test
-  public void isImageFalseTest() {
-    File file = new File("/foo.html");
-    assertFalse("Is false for non images", downloadableResponder.isImage(file));
-  }
-
-  @Test
-  public void isPdfTrueTest() {
-    File file = new File("/foo.pdf");
-    assertTrue("Is true for .pdf", downloadableResponder.isPdf(file));
-  }
-
-  @Test
-  public void isPdfFalseTest() {
-    File file = new File("/foo.png");
-    assertFalse("Is false for non .pdf", downloadableResponder.isPdf(file));
-  }
-
-  private boolean checkAllFiles(File[] files) {
-    for (File file : files) {
-      if (!downloadableResponder.isImage(file)) {
-        return false;
-      }
-    }
-    return true;
+  public void isDownloadableGifTest() {
+    File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
+    assertTrue("Not downloadable if file is jpeg", downloadableResponder.isDownloadable(file));
   }
 }
