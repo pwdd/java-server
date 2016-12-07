@@ -13,7 +13,7 @@ public class ImageResponder extends FileReader implements IResponder {
   }
 
   public byte[] header(File file, String date) {
-    String responseHeader = Protocol.version + " 200 OK" + CRLF +
+    String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("successGET") + CRLF +
         "Content-Type: " + contentTypeFor(file) + CRLF +
         "Date: " + date + CRLF +
         CRLF;

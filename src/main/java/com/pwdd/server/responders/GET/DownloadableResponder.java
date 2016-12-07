@@ -13,7 +13,7 @@ public class DownloadableResponder extends FileReader implements IResponder {
   }
 
   public byte[] header(File file, String date) {
-    return (Protocol.version + " 200 OK" + CRLF +
+    return (Protocol.version + " " + Protocol.statusCodes.get("successGET") + CRLF +
         "Date: " + date + CRLF +
         "Content-Type: application/octet-stream" + CRLF +
         "Content-Disposition: attachment" + CRLF +

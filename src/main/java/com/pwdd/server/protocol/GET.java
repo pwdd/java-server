@@ -58,7 +58,7 @@ public class GET implements Protocol {
 
   private String notFound() {
     String crlf = "\r\n";
-    return version + " 404 Not Found" + crlf +
+    return version + " " + Protocol.statusCodes.get("failedGET") + crlf +
         "Date: " + dateInUTC0() + crlf +
         crlf +
         "404 Not Found";
