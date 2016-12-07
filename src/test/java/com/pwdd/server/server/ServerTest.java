@@ -1,6 +1,7 @@
 package com.pwdd.server.server;
 
-import com.pwdd.server.responders.*;
+import com.pwdd.server.responders.GET.*;
+import com.pwdd.server.responders.IResponder;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -20,8 +21,7 @@ public class ServerTest {
   @Before
   public void setUp() {
     IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
-    ResponseBuilder responseBuilder = new ResponseBuilder(handlers);
-    server = new Server(portNumber, responseBuilder, rootDirectory);
+    server = new Server(portNumber, rootDirectory);
     thread = new Thread(server);
     thread.start();
   }

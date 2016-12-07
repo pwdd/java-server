@@ -1,7 +1,5 @@
 package com.pwdd.server.server;
 
-import com.pwdd.server.responders.ResponseBuilder;
-import com.pwdd.server.responders.*;
 import com.pwdd.server.utils.ArgumentsValidation;
 
 import java.io.File;
@@ -18,23 +16,10 @@ public final class ServerRunner {
     return new File(System.getProperty("user.dir"), directory);
   }
 
-  private static IResponder[] createHandlers(File rootDirectory) {
-    return new IResponder[] {
-        new HelloWorldResponder(),
-        new IndexResponder(rootDirectory),
-        new DownloadableResponder(),
-        new ImageResponder()};
-  }
-
-  private static ResponseBuilder createResponder(IResponder[] handlers) {
-    return new ResponseBuilder(handlers);
-  }
-
   public static void start(String[] args) {
     ArgumentsValidation.exitOnInvalidArgs(args);
     File root = getRootDirectory(args);
     int portNumber = getPortNumber(args);
-    ResponseBuilder responseBuilder = createResponder(createHandlers(root));
-    new Server(portNumber, responseBuilder, root).run();
+    new Server(portNumber, root).run();
   }
 }

@@ -1,9 +1,5 @@
 package com.pwdd.server.server;
 
-import com.pwdd.server.responders.HelloWorldResponder;
-import com.pwdd.server.responders.IResponder;
-import com.pwdd.server.responders.IndexResponder;
-import com.pwdd.server.responders.ResponseBuilder;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
@@ -16,13 +12,11 @@ import java.io.IOException;
 public class ConnectionManagerTest {
   private Server server;
   private final int portNumber = 8080;
-  private final IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
-  private final ResponseBuilder response = new ResponseBuilder(handlers);
   private final File rootDirectory = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
 
   @Before
   public void setUp() {
-    server = new Server(portNumber, response, rootDirectory);
+    server = new Server(portNumber, rootDirectory);
   }
 
   @After
@@ -34,7 +28,7 @@ public class ConnectionManagerTest {
   public void acceptsRequest() throws IOException {
     startServer();
     MockSocket mockSocket = new MockSocket();
-    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response, rootDirectory);
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, rootDirectory);
     String request = "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n";
     String expected = request.trim();
     mockSocket.setRequestString(request);
@@ -47,7 +41,7 @@ public class ConnectionManagerTest {
     startServer();
 
     MockSocket mockSocket = new MockSocket();
-    ConnectionManager connectionManager = new ConnectionManager(mockSocket, response, rootDirectory);
+    ConnectionManager connectionManager = new ConnectionManager(mockSocket, rootDirectory);
     connectionManager.sendResponseTo(mockSocket, "foo".getBytes());
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
