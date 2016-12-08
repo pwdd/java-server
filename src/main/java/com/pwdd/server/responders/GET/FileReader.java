@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-abstract  class FileReader {
+abstract class FileReader {
 
   public byte[] body(File file) {
     byte[] bodyBytes = new byte[0];
@@ -18,7 +18,7 @@ abstract  class FileReader {
     return bodyBytes;
   }
 
-  public String getExtension(File file) {
+  String getExtension(File file) {
     String[] split = file.getName().split("\\.");
     return split[split.length - 1];
   }

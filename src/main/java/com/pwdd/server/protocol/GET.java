@@ -14,9 +14,11 @@ import java.time.format.DateTimeFormatter;
 
 public class GET implements Protocol {
   private File rootDirectory;
+  private IResponder[] responders;
 
   public GET(File _rootDirectory) {
     this.rootDirectory = _rootDirectory;
+    this.responders = responders();
   }
 
   public IResponder[] responders() {
@@ -34,7 +36,7 @@ public class GET implements Protocol {
   }
 
   private byte[] response(File file) {
-    for (IResponder responder : responders()) {
+    for (IResponder responder : responders) {
       if (responder.canRespond(file)) {
         return buildFrom(responder.header(file, dateInUTC0()), responder.body(file));
       }
