@@ -13,8 +13,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class GET implements Protocol {
-  private File rootDirectory;
-  private IResponder[] responders;
+  private final File rootDirectory;
+  private final IResponder[] responders;
 
   public GET(File _rootDirectory) {
     this.rootDirectory = _rootDirectory;

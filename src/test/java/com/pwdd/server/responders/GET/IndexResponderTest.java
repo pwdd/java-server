@@ -9,10 +9,10 @@ import java.io.File;
 import static org.junit.Assert.*;
 
 public class IndexResponderTest {
-  private String baseDir = "/src/test/java/com/pwdd/server/mocks/filesystem/";
-  private File rootDirectory = new File(System.getProperty("user.dir") + baseDir);
-  private String rootDirectoryPath = rootDirectory.getAbsolutePath();
-  private IndexResponder index = new IndexResponder(rootDirectory);
+  private final String baseDir = "/src/test/java/com/pwdd/server/mocks/filesystem/";
+  private final File rootDirectory = new File(System.getProperty("user.dir") + baseDir);
+  private final String rootDirectoryPath = rootDirectory.getAbsolutePath();
+  private final IndexResponder index = new IndexResponder(rootDirectory);
 
   @Test
   public void canRespondRootTest() {

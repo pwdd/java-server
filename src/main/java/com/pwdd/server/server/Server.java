@@ -10,7 +10,7 @@ class Server implements Runnable {
   private final int portNumber;
   private Boolean listening = false;
   private ConnectionManager connectionManager;
-  private File rootDirectory;
+  private final File rootDirectory;
 
   Server(int _portNumber, File _rootDirectory) {
     this.portNumber = _portNumber;

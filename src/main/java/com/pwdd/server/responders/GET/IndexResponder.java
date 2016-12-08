@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class IndexResponder implements IResponder {
-  private File rootDirectory;
+  private final File rootDirectory;
 
   public IndexResponder(File _rootDirectory) {
     this.rootDirectory = _rootDirectory;

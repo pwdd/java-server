@@ -1,6 +1,5 @@
 package com.pwdd.server.responders.GET;
 
-import com.pwdd.server.responders.GET.DownloadableResponder;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -9,7 +8,7 @@ import java.io.File;
 import com.pwdd.server.helpers.Helpers;
 
 public class DownloadableResponderTest {
-  private String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem/";
+  private final String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem/";
   private final DownloadableResponder downloadableResponder = new DownloadableResponder();
 
   @Test

@@ -9,8 +9,8 @@ import java.io.File;
 import static org.junit.Assert.*;
 
 public class ImageResponderTest {
-  String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem";
-  ImageResponder imageResponder = new ImageResponder();
+  private final String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem";
+  private final ImageResponder imageResponder = new ImageResponder();
 
   @Test
   public void canRespondToJPGTest() {

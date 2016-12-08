@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class ConnectionManagerTest {
   private Server server;
-  private final int portNumber = 8080;
   private final File rootDirectory = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
 
   @Before
   public void setUp() {
+    final int portNumber = 8080;
     server = new Server(portNumber, rootDirectory);
   }
 

@@ -20,7 +20,6 @@ public class ServerTest {
 
   @Before
   public void setUp() {
-    IResponder[] handlers = new IResponder[] { new IndexResponder(new File("foo")), new HelloWorldResponder() };
     server = new Server(portNumber, rootDirectory);
     thread = new Thread(server);
     thread.start();

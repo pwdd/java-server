@@ -2,16 +2,15 @@ package com.pwdd.server.protocol;
 
 import com.pwdd.server.helpers.Helpers;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.io.*;
 
 import static org.junit.Assert.assertTrue;
 
 public class GETTest {
-  private File rootDirectory = new File(System.getProperty("user.dir"),
+  private final File rootDirectory = new File(System.getProperty("user.dir"),
       "/test/java/com/pwdd/server/mocks/filesystem");
-  private Protocol getResponder = new GET(rootDirectory);
+  private final Protocol getResponder = new GET(rootDirectory);
 
   private BufferedReader bufRequest(String request) {
     return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(request.getBytes())));

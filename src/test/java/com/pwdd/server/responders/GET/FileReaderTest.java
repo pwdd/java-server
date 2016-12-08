@@ -1,6 +1,5 @@
 package com.pwdd.server.responders.GET;
 
-import com.pwdd.server.responders.GET.DownloadableResponder;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -11,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileReaderTest {
-  private DownloadableResponder fileReaderTester = new DownloadableResponder();
+  private final DownloadableResponder fileReaderTester = new DownloadableResponder();
 
   @Test
   public void bodyReadsAnImageIntoBytes() throws IOException {

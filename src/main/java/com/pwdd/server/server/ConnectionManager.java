@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.Socket;
 
 class ConnectionManager implements Runnable {
-  private File rootDirectory;
+  private final File rootDirectory;
   private final Socket socket;
 
   ConnectionManager(Socket _socket, File _rootDirectory) {

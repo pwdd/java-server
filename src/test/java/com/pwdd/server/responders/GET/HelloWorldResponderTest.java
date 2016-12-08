@@ -1,6 +1,5 @@
 package com.pwdd.server.responders.GET;
 
-import com.pwdd.server.responders.GET.HelloWorldResponder;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -9,8 +8,8 @@ import com.pwdd.server.helpers.Helpers;
 import java.io.File;
 
 public class HelloWorldResponderTest {
-  private HelloWorldResponder helloWorldResponder = new HelloWorldResponder();
-  private byte[] header = helloWorldResponder.header(new File("foo"), "date");
+  private final HelloWorldResponder helloWorldResponder = new HelloWorldResponder();
+  private final byte[] header = helloWorldResponder.header(new File("foo"), "date");
 
   @Test
   public void canRespondHelloURITest() {
