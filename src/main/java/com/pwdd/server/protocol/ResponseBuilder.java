@@ -24,7 +24,7 @@ abstract class ResponseBuilder {
         return buildFrom(responder.header(file, dateInUTC0()), responder.body(file));
       }
     }
-    return notFound().getBytes();
+    return errorMessage().getBytes();
   }
 
   private byte[] buildFrom(byte[] header, byte[] body) {
@@ -41,7 +41,7 @@ abstract class ResponseBuilder {
     return dateFormat.format(date);
   }
 
-  private String notFound() {
+  String errorMessage() {
     String crlf = "\r\n";
     return Protocol.version + " " + Protocol.statusCodes.get("404") + crlf +
         "Date: " + dateInUTC0() + crlf +

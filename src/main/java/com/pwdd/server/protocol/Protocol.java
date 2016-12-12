@@ -12,6 +12,7 @@ public interface Protocol {
   Map<String, String> statusCodes = new HashMap<String, String>() {{
     put("200", "200 OK");
     put("404", "404 Not Found");
+    put("400", "400 Bad Request");
   }};
 
   byte[] processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException;

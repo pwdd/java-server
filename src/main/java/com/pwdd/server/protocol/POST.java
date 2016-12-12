@@ -21,4 +21,9 @@ public class POST extends ResponseBuilder implements Protocol {
         new ProcessFormResponder(requestBody)
     };
   }
+
+  @Override
+  public String errorMessage() {
+    return Protocol.version + " " + Protocol.statusCodes.get("400") + IResponder.CRLF;
+  }
 }

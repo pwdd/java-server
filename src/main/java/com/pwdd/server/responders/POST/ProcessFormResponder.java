@@ -15,7 +15,11 @@ public class ProcessFormResponder implements IResponder {
   }
 
   public boolean canRespond(File file) {
-    return file.getPath().toLowerCase().matches(".*/processed-form/?$.*");
+    return validateForm(mapFormData()) && isValidPath(file.getPath());
+  }
+
+  private boolean isValidPath(String path) {
+    return path.toLowerCase().matches(".*/processed-form/?$.*");
   }
 
   public byte[] header(File file, String date) {
@@ -62,5 +66,28 @@ public class ProcessFormResponder implements IResponder {
       formatted.append("<li>").append(key).append(": ").append(value).append("</li>");
     }
     return formatted.toString();
+  }
+
+  private boolean validateForm(HashMap<String, String> data) {
+    return data.size() == 3 &&
+        checkKeyExistence(data, "Text") &&
+        checkKeyExistence(data, "Number") &&
+        checkKeyExistence(data, "Select") &&
+        validateNumber(data.get("Number")) &&
+        validateSelect(data.get("Select"));
+  }
+
+  private boolean checkKeyExistence(HashMap<String, String> data, String key) {
+    return data.get(key) != null;
+  }
+
+  private boolean validateNumber(String number) {
+    return number.matches("\\d+");
+  }
+
+  private boolean validateSelect(String select) {
+    return select.equalsIgnoreCase("one") ||
+        select.equalsIgnoreCase("two") ||
+        select.equalsIgnoreCase("three");
   }
 }
