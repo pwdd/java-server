@@ -1,9 +1,11 @@
 package com.pwdd.server.protocol;
 
+import com.pwdd.server.RequestParser;
 import com.pwdd.server.helpers.Helpers;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 
@@ -16,14 +18,20 @@ public class GETTest {
     return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(request.getBytes())));
   }
 
+  private HashMap<String, String> mapRequest(BufferedReader request) throws IOException {
+    return RequestParser.requestMap(request);
+  }
+
   private String response() throws IOException {
     String requestString = "GET /hello HTTP/1.1\r\nHost: localhost\r\n\r\n";
-    return Helpers.bytesToString(getResponder.processResponse(bufRequest(requestString)));
+    return Helpers.bytesToString(getResponder.processResponse(mapRequest(bufRequest(requestString)),
+        rootDirectory,
+        getResponder.responders()));
   }
 
   @Test
   public void responseHeaderIsProperlyFormatted() throws IOException {
-    assertTrue("Each line of header ends with a CRLF",
+    assertTrue("Each line of requestMap ends with a CRLF",
         (response().contains("OK\r\n") &&
             response().contains("+0000\r\n") &&
             response().contains("text/plain\r\n")));
@@ -32,7 +40,7 @@ public class GETTest {
 
   @Test
   public void responseHasHeaderAndBody() throws IOException {
-    assertTrue("Combined responseBuilder has header and body",
+    assertTrue("Combined responseBuilder has requestMap and body",
         response().contains("HTTP/1.1 200 OK") && response().contains("Hello, world"));
   }
 

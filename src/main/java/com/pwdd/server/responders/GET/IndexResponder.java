@@ -23,7 +23,7 @@ public class IndexResponder implements IResponder {
   }
 
   public byte[] header(File file, String date) {
-    String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("successGET") + CRLF +
+    String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
         "Content-Type: text/html" + CRLF +
         "Date: " + date + CRLF +
         CRLF;

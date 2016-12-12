@@ -26,7 +26,7 @@ public class RequestParserTest {
     expected.put("Keep-Alive", "300");
     expected.put("ConnectionManager", "keep-alive");
 
-    assertEquals(expected, RequestParser.header(br));
+    assertEquals(expected, RequestParser.requestMap(br));
   }
 
   @Test
@@ -51,6 +51,6 @@ public class RequestParserTest {
     expected.put("Content-Length", "5");
     expected.put("Body", "hello");
 
-    assertEquals(expected, RequestParser.header(br));
+    assertEquals(expected, RequestParser.requestMap(br));
   }
 }

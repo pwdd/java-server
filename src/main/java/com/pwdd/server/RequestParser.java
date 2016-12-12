@@ -10,7 +10,7 @@ import java.util.HashMap;
 public final class RequestParser {
   private RequestParser() {}
 
-  public static HashMap<String, String> header(BufferedReader request) throws IOException {
+  public static HashMap<String, String> requestMap(BufferedReader request) throws IOException {
     HashMap<String, String> headerMap = new HashMap<>();
     String requestString = bufToString(request);
     String[] requestArray = stringToStringArray(requestString);

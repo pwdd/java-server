@@ -1,17 +1,24 @@
 package com.pwdd.server.protocol;
 
 import com.pwdd.server.responders.IResponder;
+import com.pwdd.server.responders.POST.ProcessFormResponder;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.File;
 
-public class POST implements Protocol {
+public class POST extends ResponseBuilder implements Protocol {
+  private File rootDirectory;
+  private String requestBody;
+  private IResponder[] responders;
 
-  public IResponder[] responders() {
-    return new IResponder[]{};
+  public POST(File _rootDirectory, String _requestBody) {
+    this.requestBody = _requestBody;
+    this.responders = responders();
+    this.rootDirectory = _rootDirectory;
   }
 
-  public byte[] processResponse(BufferedReader request) throws IOException {
-    return "".getBytes();
+  public IResponder[] responders() {
+    return new IResponder[]{
+        new ProcessFormResponder(requestBody)
+    };
   }
 }
