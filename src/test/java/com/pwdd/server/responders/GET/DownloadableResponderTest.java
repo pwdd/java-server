@@ -4,6 +4,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.pwdd.server.helpers.Helpers;
 
@@ -84,5 +88,14 @@ public class DownloadableResponderTest {
   public void isDownloadableGifTest() {
     File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
     assertTrue("Not downloadable if file is jpeg", downloadableResponder.isDownloadable(file));
+  }
+
+  @Test
+  public void bodyIsFileTest() throws IOException {
+    File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
+    byte[] responseBody = downloadableResponder.body(file);
+    Path path = Paths.get("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
+    byte[] fileBytes = Files.readAllBytes(path);
+    assertArrayEquals("Response body is the file", responseBody, fileBytes);
   }
 }

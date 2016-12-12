@@ -35,7 +35,7 @@ abstract class ResponseBuilder {
     return combined;
   }
 
-  private String dateInUTC0() {
+  String dateInUTC0() {
     ZonedDateTime date = ZonedDateTime.now(ZoneOffset.UTC);
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
     return dateFormat.format(date);

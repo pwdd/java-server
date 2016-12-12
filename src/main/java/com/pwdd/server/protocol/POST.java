@@ -6,14 +6,10 @@ import com.pwdd.server.responders.POST.ProcessFormResponder;
 import java.io.File;
 
 public class POST extends ResponseBuilder implements Protocol {
-  private File rootDirectory;
   private String requestBody;
-  private IResponder[] responders;
 
-  public POST(File _rootDirectory, String _requestBody) {
+  public POST(String _requestBody) {
     this.requestBody = _requestBody;
-    this.responders = responders();
-    this.rootDirectory = _rootDirectory;
   }
 
   public IResponder[] responders() {
@@ -24,6 +20,10 @@ public class POST extends ResponseBuilder implements Protocol {
 
   @Override
   public String errorMessage() {
-    return Protocol.version + " " + Protocol.statusCodes.get("400") + IResponder.CRLF;
+    String invalidRequest = Protocol.statusCodes.get("400");
+    return Protocol.version + " " + invalidRequest + IResponder.CRLF +
+        "Date: " + dateInUTC0() + IResponder.CRLF +
+        IResponder.CRLF +
+        invalidRequest;
   }
 }

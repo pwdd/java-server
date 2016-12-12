@@ -7,11 +7,9 @@ import java.io.File;
 
 public class GET extends ResponseBuilder implements Protocol {
   private final File rootDirectory;
-  private final IResponder[] responders;
 
   public GET(File _rootDirectory) {
     this.rootDirectory = _rootDirectory;
-    this.responders = responders();
   }
 
   public IResponder[] responders() {
