@@ -1,5 +1,7 @@
 package com.pwdd.server;
 
+import com.pwdd.server.responders.IResponder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -8,7 +10,7 @@ import java.util.HashMap;
 public final class RequestParser {
   private RequestParser() {}
 
-  public static HashMap<String, String> header(BufferedReader request) throws IOException {
+  public static HashMap<String, String> requestMap(BufferedReader request) throws IOException {
     HashMap<String, String> headerMap = new HashMap<>();
     String requestString = bufToString(request);
     String[] requestArray = stringToStringArray(requestString);
@@ -24,14 +26,28 @@ public final class RequestParser {
   }
 
   private static String bufToString(BufferedReader buf) throws IOException {
-    String crlf = "\r\n";
-    StringBuilder builder = new StringBuilder();
+    int contentLength = 0;
+    String contentLengthKey = "Content-Length: ";
+    StringBuilder request = new StringBuilder();
     String line;
 
     while ((line = buf.readLine()) != null && !line.equals("")) {
-      builder.append(line).append(crlf);
+      request.append(line).append(IResponder.CRLF);
+
+      if (line.contains(contentLengthKey)) {
+        contentLength = Integer.parseInt(line.substring(contentLengthKey.length()));
+      }
     }
-    return builder.toString();
+    if (contentLength > 0) {
+      getBody(buf, request, contentLength);
+    }
+    return request.toString();
+  }
+
+  private static void getBody(BufferedReader buf, StringBuilder base, int size) throws IOException {
+    char[] body = new char[size];
+    buf.read(body);
+    base.append("Body: ").append(new String(body)).append(IResponder.CRLF);
   }
 
   private static String[] stringToStringArray(String in) {
@@ -45,4 +61,6 @@ public final class RequestParser {
     map.put("URI", firstLineList[1]);
     map.put("Protocol", firstLineList[2]);
   }
+
+
 }
