@@ -1,13 +1,18 @@
 package com.pwdd.server.server;
 
+import com.pwdd.server.protocol.GET;
+import com.pwdd.server.protocol.POST;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.pwdd.server.mocks.MockSocket;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.HashMap;
 
 public class ConnectionManagerTest {
   private Server server;

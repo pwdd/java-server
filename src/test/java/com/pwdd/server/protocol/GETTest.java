@@ -116,4 +116,10 @@ public class GETTest {
     assertTrue("Content-Type is image/png",
         response.contains("Content-Type: image/png"));
   }
+
+  @Test
+  public void respond404IfInvalidURI() throws IOException {
+    String response = responseFor("/abc.txt");
+    assertTrue("Respond with 404 error if resource is not found", response.contains("404 Not Found"));
+  }
 }

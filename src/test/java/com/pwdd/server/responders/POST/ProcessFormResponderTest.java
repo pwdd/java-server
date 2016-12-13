@@ -1,5 +1,6 @@
 package com.pwdd.server.responders.POST;
 
+import com.pwdd.server.helpers.Helpers;
 import org.junit.*;
 
 import java.io.File;
@@ -43,5 +44,24 @@ public class ProcessFormResponderTest {
       put("Select", "one");
     }};
     assertEquals(mapped, responder.mapFormData());
+  }
+
+  @Test
+  public void headerOKTest() {
+    String data = "text=abc&number=123&select=one";
+    ProcessFormResponder responder = new ProcessFormResponder(data);
+    String response = Helpers.bytesToString(responder.header(new File("/processed-form"), "date"));
+    assertTrue("Returns 200 OK if form goes through", response.contains("200 OK"));
+  }
+
+  @Test
+  public void bodyOKTest() {
+    String data = "text=abc&number=123&select=one";
+    ProcessFormResponder responder = new ProcessFormResponder(data);
+    String response = Helpers.bytesToString(responder.body(new File("/processed-form")));
+    assertTrue("Body has form data",
+        response.contains("Text: abc") &&
+            response.contains("Number: 123") &&
+            response.contains("Select: one"));
   }
 }

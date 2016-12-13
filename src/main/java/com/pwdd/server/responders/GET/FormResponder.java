@@ -14,6 +14,7 @@ public class FormResponder implements IResponder {
     String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
         "Content-Type: " + "text/html" + CRLF +
         "Date: " + date + CRLF +
+        "Content-Length: " + body(file).length + CRLF +
         CRLF;
     return responseHeader.getBytes();
   }

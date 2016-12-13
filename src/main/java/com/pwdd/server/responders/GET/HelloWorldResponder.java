@@ -15,6 +15,7 @@ public class HelloWorldResponder implements IResponder {
     String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
         "Content-Type: text/plain" + CRLF +
         "Date: " + date + CRLF +
+        "Content-Length: " + body(file).length + CRLF +
         CRLF;
     return responseHeader.getBytes();
   }

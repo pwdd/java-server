@@ -17,6 +17,7 @@ public class DownloadableResponder extends FileReader implements IResponder {
         "Date: " + date + CRLF +
         "Content-Type: application/octet-stream" + CRLF +
         "Content-Disposition: attachment" + CRLF +
+        "Content-Length: " + body(file).length + CRLF +
         CRLF).getBytes();
   }
 

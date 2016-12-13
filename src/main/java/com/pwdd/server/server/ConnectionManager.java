@@ -43,7 +43,7 @@ class ConnectionManager implements Runnable {
     }
   }
 
-  private Protocol getProtocol(HashMap<String, String> request) throws IOException {
+  Protocol getProtocol(HashMap<String, String> request) throws IOException {
     return request.get("Method").equalsIgnoreCase("POST") ?
         new POST(request.get("Body")) :
         new GET(rootDirectory);
