@@ -5,7 +5,7 @@ set terminal png
 set output "benchmark/benchmark.png"
 
 # graph title
-set title "Compare: 10000 requests, 20 concurrent, big-photo-url"
+set title "Compare: 1000 requests, 20 concurrent, 100MB file"
 
 # aspect ratio for image size
 set size 1,1
