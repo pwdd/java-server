@@ -5,7 +5,7 @@ set size 1, 1
 # The file we'll write to
 set output "benchmark/after/dots.jpeg"
 # The graph title
-set title "10000 requests, 20 concurrents, photo, time of response"
+set title "1000 requests, 20 concurrents, 100MB file, time of response"
 # Where to place the legend/key
 set key left top
 # Draw gridlines oriented on the y axis
@@ -15,7 +15,6 @@ set xdata time
 # Specify the *input* format of the time data
 set timefmt "%s"
 # Specify the *output* format for the x-axis tick labels
-<<<<<<< HEAD:benchmark/dots.p
 set format x "\"%H:%M:%S\""
 # Label the x-axis
 set xlabel 'minutes'

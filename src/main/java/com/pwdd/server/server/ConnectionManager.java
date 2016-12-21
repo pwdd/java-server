@@ -25,7 +25,11 @@ class ConnectionManager implements Runnable {
 
   void sendResponseTo(Socket socket, byte[] response) throws IOException {
     InputStream input = new ByteArrayInputStream(response);
+<<<<<<< HEAD
     byte[] buf = new byte[8191];
+=======
+    byte[] buf = new byte[8192];
+>>>>>>> Modify sendResponse to send large files
     int bytesRead = 0;
     BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
     while ((bytesRead = input.read(buf, 0, buf.length)) != -1) {
@@ -35,6 +39,30 @@ class ConnectionManager implements Runnable {
     out.flush();
     out.close();
   }
+
+//  public static void stream(InputStream in, OutputStream out)
+//      throws IOException {
+//    byte[] buf = new byte[1024];
+//    int bytesRead = 0;
+//
+//    try {
+//
+//      while (-1 != (bytesRead = in.read(buf, 0, buf.length))) {
+//        out.write(buf, 0, bytesRead);
+//      }
+//
+//    } catch (IOException e) {
+//      log.error("Error with streaming op: " + e.getMessage());
+//      throw (e);
+//    } finally {
+//      try{
+//        in.close();
+//        out.flush();
+//        out.close();
+//      } catch (Exception e){}//Ignore
+//    }
+//  }
+
 
   @Override
   public void run() {
