@@ -5,7 +5,7 @@ set size 1, 1
 # The file we'll write to
 set output "benchmark/noconcurrencydots.jpeg"
 # The graph title
-set title "10000 requests, no concurrenty, photo, time of response per minute"
+set title "10000 requests, no concurrenty, photo, time of response"
 # Where to place the legend/key
 set key left top
 # Draw gridlines oriented on the y axis
@@ -15,7 +15,7 @@ set xdata time
 # Specify the *input* format of the time data
 set timefmt "%s"
 # Specify the *output* format for the x-axis tick labels
-set format x "%M"
+set format x "\"%H:%M:%S\""
 # Label the x-axis
 set xlabel 'minutes'
 # Label the y-axis

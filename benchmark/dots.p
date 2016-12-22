@@ -5,7 +5,7 @@ set size 1, 1
 # The file we'll write to
 set output "benchmark/dots.jpeg"
 # The graph title
-set title "10000 requests, 20 concurrents, photo, time of response per second"
+set title "10000 requests, 20 concurrents, photo, time of response"
 # Where to place the legend/key
 set key left top
 # Draw gridlines oriented on the y axis
@@ -15,9 +15,9 @@ set xdata time
 # Specify the *input* format of the time data
 set timefmt "%s"
 # Specify the *output* format for the x-axis tick labels
-set format x "%s"
+set format x "\"%H:%M:%S\""
 # Label the x-axis
-set xlabel 'seconds'
+set xlabel 'minutes'
 # Label the y-axis
 set ylabel "response time (ms)"
 # Tell gnuplot to use tabs as the delimiter instead of spaces (default)
