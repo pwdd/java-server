@@ -3,9 +3,9 @@ set terminal jpeg size 1500,500
 # This sets the aspect ratio of the graph
 set size 1, 1
 # The file we'll write to
-set output "benchmark/after/noconcurrencydots.jpeg"
+set output "benchmark/after/10thousand.jpeg"
 # The graph title
-set title "1000 requests, no concurrency, 100MB file, time of response per minute"
+set title "1000 requests, 100MB file, time of response"
 # Where to place the legend/key
 set key left top
 # Draw gridlines oriented on the y axis
@@ -23,5 +23,5 @@ set ylabel "response time (ms)"
 # Tell gnuplot to use tabs as the delimiter instead of spaces (default)
 set datafile separator '\t'
 # Plot the data
-plot "benchmark/after/noconcurrency.tsv" every ::2 using 2:5 title 'response time' with points
+plot "benchmark/after/10thousand.tsv" every ::2 using 2:5 title 'response time' with points
 exit

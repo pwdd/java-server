@@ -15,7 +15,7 @@ set xdata time
 # Specify the *input* format of the time data
 set timefmt "%s"
 # Specify the *output* format for the x-axis tick labels
-set format x "\"%H:%M:%S\""
+set format x "%H:%M:%S"
 # Label the x-axis
 set xlabel 'minutes'
 # Label the y-axis
