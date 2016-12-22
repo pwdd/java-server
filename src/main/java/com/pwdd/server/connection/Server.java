@@ -1,4 +1,4 @@
-package com.pwdd.server.server;
+package com.pwdd.server.connection;
 
 import java.io.File;
 import java.net.ServerSocket;

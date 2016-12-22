@@ -4,12 +4,13 @@ import com.pwdd.server.helpers.Helpers;
 import org.junit.*;
 
 import java.io.File;
+import java.io.InputStream;
 
 import static org.junit.Assert.*;
 
 public class FormResponderTest {
   private final FormResponder formResponder = new FormResponder();
-  private final byte[] header = formResponder.header(new File("foo"), "date");
+  private final InputStream header = formResponder.header(new File("foo"), "date");
 
   @Test
   public void canRespondHelloURITest() {
@@ -38,27 +39,27 @@ public class FormResponderTest {
 
   @Test
   public void headerHasProtocolVersionTest() {
-    assertTrue("Header has protocol version", Helpers.bytesToString(header).contains("HTTP/1.1"));
+    assertTrue("Header has protocol version", Helpers.inputStreamToString(header).contains("HTTP/1.1"));
   }
 
   @Test
   public void headerHasStatusCodeTest() {
-    assertTrue("Header has status code", Helpers.bytesToString(header).contains("200 OK"));
+    assertTrue("Header has status code", Helpers.inputStreamToString(header).contains("200 OK"));
   }
 
   @Test
   public void headerHasContentTypeTest() {
-    assertTrue("Header has content type", Helpers.bytesToString(header).contains("text/html"));
+    assertTrue("Header has content type", Helpers.inputStreamToString(header).contains("text/html"));
   }
 
   @Test
   public void headerHasDateTest() {
-    assertTrue("Header has date", Helpers.bytesToString(header).contains("Date: "));
+    assertTrue("Header has date", Helpers.inputStreamToString(header).contains("Date: "));
   }
 
   @Test
   public void bodyHasFormTest() {
-    byte[] body = formResponder.body(new File("/form"));
-    assertTrue("Body has a <form>", Helpers.bytesToString(body).contains("<form method=\"post\""));
+    InputStream body = formResponder.body(new File("/form"));
+    assertTrue("Body has a <form>", Helpers.inputStreamToString(body).contains("<form method=\"post\""));
   }
 }

@@ -4,6 +4,7 @@ import com.pwdd.server.responders.IResponder;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface Protocol {
     put("400", "400 Bad Request");
   }};
 
-  byte[] processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException;
+  InputStream processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException;
 
   IResponder[] responders();
 }

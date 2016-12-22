@@ -1,5 +1,6 @@
 package com.pwdd.server.responders.GET;
 
+import com.pwdd.server.helpers.Helpers;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -18,7 +19,7 @@ public class FileReaderTest {
     File file = new File(path);
     Path filePath = Paths.get(path);
     byte[] expected = Files.readAllBytes(filePath);
-    byte[] result = fileReaderTester.body(file);
+    byte[] result = Helpers.responseByteArray(fileReaderTester.body(file));
     assertArrayEquals("Body has same content as image", expected, result);
   }
 
@@ -28,7 +29,7 @@ public class FileReaderTest {
     File file = new File(path);
     Path filePath = Paths.get(path);
     byte[] expected = Files.readAllBytes(filePath);
-    byte[] result = fileReaderTester.body(file);
+    byte[] result = Helpers.responseByteArray(fileReaderTester.body(file));
     assertArrayEquals("Body has same content as file", expected, result);
   }
 

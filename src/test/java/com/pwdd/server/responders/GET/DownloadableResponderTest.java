@@ -3,8 +3,10 @@ package com.pwdd.server.responders.GET;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,14 +50,14 @@ public class DownloadableResponderTest {
 
   @Test
   public void headerHasRightContentTypeTest() {
-    String header = Helpers.bytesToString(downloadableResponder.header(new File("foo"), "date"));
+    String header = Helpers.inputStreamToString(downloadableResponder.header(new File("foo"), "date"));
     assertTrue("Content-Type is set to application/octet-stream",
         header.contains("application/octet-stream"));
   }
 
   @Test
   public void headerHasRightContentDisposition() {
-    String header = Helpers.bytesToString(downloadableResponder.header(new File("foo"),"date"));
+    String header = Helpers.inputStreamToString(downloadableResponder.header(new File("foo"),"date"));
     assertTrue("Content-Disposition is set to attachment",
         header.contains("Content-Disposition: attachment"));
   }
@@ -93,9 +95,10 @@ public class DownloadableResponderTest {
   @Test
   public void bodyIsFileTest() throws IOException {
     File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
-    byte[] responseBody = downloadableResponder.body(file);
+    InputStream responseBody = downloadableResponder.body(file);
+    byte[] responseBytes = Helpers.responseByteArray(responseBody);
     Path path = Paths.get("src/test/java/com/pwdd/server/mocks/filesystem/monkey.gif");
     byte[] fileBytes = Files.readAllBytes(path);
-    assertArrayEquals("Response body is the file", responseBody, fileBytes);
+    assertArrayEquals("Response body is the file", responseBytes, fileBytes);
   }
 }

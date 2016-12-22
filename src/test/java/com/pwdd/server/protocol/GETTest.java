@@ -21,7 +21,7 @@ public class GETTest {
   }
 
   private String responseFor(String uri) throws IOException {
-    return Helpers.bytesToString(getResponder.processResponse(mapRequest(uri),
+    return Helpers.inputStreamToString(getResponder.processResponse(mapRequest(uri),
         rootDirectory,
         getResponder.responders()));
   }

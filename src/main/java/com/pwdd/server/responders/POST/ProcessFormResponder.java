@@ -3,7 +3,9 @@ package com.pwdd.server.responders.POST;
 import com.pwdd.server.protocol.Protocol;
 import com.pwdd.server.responders.IResponder;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,17 +24,17 @@ public class ProcessFormResponder implements IResponder {
     return path.toLowerCase().matches(".*/processed-form/?$.*");
   }
 
-  public byte[] header(File file, String date) {
-    return (Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF + "Date: " + date + CRLF + CRLF).getBytes();
+  public InputStream header(File file, String date) {
+    return new ByteArrayInputStream((Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF + "Date: " + date + CRLF + CRLF).getBytes());
   }
 
-  public byte[] body(File file) {
+  public InputStream body(File file) {
     StringBuilder html = new StringBuilder();
     html.append("<!doctype html><html><head><title>Form data</title></head><body><h1>Sent data:</h1><ul>").
         append(formatFormData()).append("</ul>").
         append(back()).
         append("</body></html>");
-    return html.toString().getBytes();
+    return new ByteArrayInputStream(html.toString().getBytes());
   }
 
   private String back() {

@@ -3,8 +3,7 @@ package com.pwdd.server.protocol;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.utils.FileHandler;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,27 +11,23 @@ import java.util.HashMap;
 
 abstract class ResponseBuilder {
 
-  public byte[] processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException {
+  public InputStream processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException {
     String uri = request.get("URI");
     File file = defineFile(rootDirectory, uri);
     return response(file, responders);
   }
 
-  private byte[] response(File file, IResponder[] responders) {
+  private InputStream response(File file, IResponder[] responders) throws IOException {
     for (IResponder responder : responders) {
       if (responder.canRespond(file)) {
         return buildFrom(responder.header(file, dateInUTC0()), responder.body(file));
       }
     }
-    return errorMessage().getBytes();
+    return new ByteArrayInputStream(errorMessage().getBytes());
   }
 
-  private byte[] buildFrom(byte[] header, byte[] body) {
-    byte[] combined = new byte[header.length + body.length];
-    for (int i = 0; i < combined.length; i++) {
-      combined[i] = i < header.length ? header[i] :  body[i - header.length];
-    }
-    return combined;
+  private InputStream buildFrom(InputStream header, InputStream body) {
+    return new SequenceInputStream(header, body);
   }
 
   String dateInUTC0() {

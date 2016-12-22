@@ -44,21 +44,21 @@ public class ImageResponderTest {
 
   @Test
   public void headerOfPdfTest() {
-    String header = Helpers.bytesToString(imageResponder.header(new File("foo.pdf"), "today"));
+    String header = Helpers.inputStreamToString(imageResponder.header(new File("foo.pdf"), "today"));
     assertTrue("Has the right content type for pdf",
         header.contains("application/pdf"));
   }
 
   @Test
   public void headerOfJpgTest() {
-    String header = Helpers.bytesToString(imageResponder.header(new File("foo.jpg"), "today"));
+    String header = Helpers.inputStreamToString(imageResponder.header(new File("foo.jpg"), "today"));
     assertTrue("Has the right content type for jpg",
         header.contains("image/jpeg"));
   }
 
   @Test
   public void headerOfPngTest() {
-    String header = Helpers.bytesToString(imageResponder.header(new File("foo.png"), "today"));
+    String header = Helpers.inputStreamToString(imageResponder.header(new File("foo.png"), "today"));
     assertTrue("Has the right content type for png",
         header.contains("image/png"));
   }

@@ -1,7 +1,5 @@
-package com.pwdd.server.server;
+package com.pwdd.server.connection;
 
-import com.pwdd.server.protocol.GET;
-import com.pwdd.server.protocol.POST;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -9,10 +7,9 @@ import static org.junit.Assert.assertTrue;
 import com.pwdd.server.mocks.MockSocket;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.HashMap;
 
 public class ConnectionManagerTest {
   private Server server;
@@ -47,7 +44,7 @@ public class ConnectionManagerTest {
 
     MockSocket mockSocket = new MockSocket();
     ConnectionManager connectionManager = new ConnectionManager(mockSocket, rootDirectory);
-    connectionManager.sendResponseTo(mockSocket, "foo".getBytes());
+    connectionManager.sendResponseTo(mockSocket, new ByteArrayInputStream("foo".getBytes()));
     mockSocket.setStoredOutput();
     assertEquals("foo", mockSocket.storedOutput);
   }

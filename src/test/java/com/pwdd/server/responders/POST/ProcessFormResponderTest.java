@@ -50,7 +50,7 @@ public class ProcessFormResponderTest {
   public void headerOKTest() {
     String data = "text=abc&number=123&select=one";
     ProcessFormResponder responder = new ProcessFormResponder(data);
-    String response = Helpers.bytesToString(responder.header(new File("/processed-form"), "date"));
+    String response = Helpers.inputStreamToString(responder.header(new File("/processed-form"), "date"));
     assertTrue("Returns 200 OK if form goes through", response.contains("200 OK"));
   }
 
@@ -58,7 +58,7 @@ public class ProcessFormResponderTest {
   public void bodyOKTest() {
     String data = "text=abc&number=123&select=one";
     ProcessFormResponder responder = new ProcessFormResponder(data);
-    String response = Helpers.bytesToString(responder.body(new File("/processed-form")));
+    String response = Helpers.inputStreamToString(responder.body(new File("/processed-form")));
     assertTrue("Body has form data",
         response.contains("Text: abc") &&
             response.contains("Number: 123") &&

@@ -1,4 +1,4 @@
-package com.pwdd.server.server;
+package com.pwdd.server.connection;
 
 import com.pwdd.server.utils.ArgumentsValidation;
 

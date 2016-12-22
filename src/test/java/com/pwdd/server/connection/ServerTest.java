@@ -1,4 +1,4 @@
-package com.pwdd.server.server;
+package com.pwdd.server.connection;
 
 import org.junit.*;
 import static org.junit.Assert.*;

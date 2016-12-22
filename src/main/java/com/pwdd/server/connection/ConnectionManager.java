@@ -1,4 +1,4 @@
-package com.pwdd.server.server;
+package com.pwdd.server.connection;
 
 import com.pwdd.server.RequestParser;
 import com.pwdd.server.protocol.GET;
@@ -23,15 +23,14 @@ class ConnectionManager implements Runnable {
     return new BufferedReader(new InputStreamReader(socket.getInputStream()));
   }
 
-  void sendResponseTo(Socket socket, byte[] response) throws IOException {
-    InputStream input = new ByteArrayInputStream(response);
+  void sendResponseTo(Socket socket, InputStream response) throws IOException {
     byte[] buf = new byte[8191];
     int bytesRead = 0;
     BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-    while ((bytesRead = input.read(buf, 0, buf.length)) != -1) {
+    while ((bytesRead = response.read(buf)) != -1) {
       out.write(buf, 0, bytesRead);
     }
-    input.close();
+    response.close();
     out.flush();
     out.close();
   }
