@@ -2,7 +2,7 @@ package com.pwdd.server.responders.GET;
 
 import java.io.*;
 
-abstract class FileReader {
+class FileReader {
 
   public InputStream body(File file) throws IOException {
     return new FileInputStream(file.getAbsolutePath());
