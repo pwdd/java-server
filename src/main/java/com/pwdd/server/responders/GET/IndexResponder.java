@@ -3,7 +3,9 @@ package com.pwdd.server.responders.GET;
 import com.pwdd.server.protocol.Protocol;
 import com.pwdd.server.responders.IResponder;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -22,17 +24,16 @@ public class IndexResponder implements IResponder {
     return file.exists() && file.isDirectory();
   }
 
-  public byte[] header(File file, String date) {
-    String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
+  public InputStream header(File file, String date) {
+    return new ByteArrayInputStream((Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
         "Content-Type: text/html" + CRLF +
         "Date: " + date + CRLF +
-        "Content-Length: " + body(file).length + CRLF +
-        CRLF;
-    return responseHeader.getBytes();
+        "Content-Length: " + index(file).getBytes().length + CRLF +
+        CRLF).getBytes());
   }
 
-  public byte[] body(File file) {
-    return index(file).getBytes();
+  public InputStream body(File file) {
+    return new ByteArrayInputStream(index(file).getBytes());
   }
 
   private String index(File file) {

@@ -6,10 +6,11 @@ import static org.junit.Assert.*;
 import com.pwdd.server.helpers.Helpers;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class HelloWorldResponderTest {
   private final HelloWorldResponder helloWorldResponder = new HelloWorldResponder();
-  private final byte[] header = helloWorldResponder.header(new File("foo"), "date");
+  private final InputStream header = helloWorldResponder.header(new File("foo"), "date");
 
   @Test
   public void canRespondHelloURITest() {
@@ -38,27 +39,27 @@ public class HelloWorldResponderTest {
 
   @Test
   public void headerHasProtocolVersionTest() {
-    assertTrue("Header has protocol version", Helpers.bytesToString(header).contains("HTTP/1.1"));
+    assertTrue("Header has protocol version", Helpers.inputStreamToString(header).contains("HTTP/1.1"));
   }
 
   @Test
   public void headerHasStatusCodeTest() {
-    assertTrue("Header has status code", Helpers.bytesToString(header).contains("200 OK"));
+    assertTrue("Header has status code", Helpers.inputStreamToString(header).contains("200 OK"));
   }
 
   @Test
   public void headerHasContentTypeTest() {
-    assertTrue("Header has content type", Helpers.bytesToString(header).contains("text/plain"));
+    assertTrue("Header has content type", Helpers.inputStreamToString(header).contains("text/plain"));
   }
 
   @Test
   public void headerHasDateTest() {
-    assertTrue("Header has date", Helpers.bytesToString(header).contains("Date: "));
+    assertTrue("Header has date", Helpers.inputStreamToString(header).contains("Date: "));
   }
 
   @Test
   public void bodyHasHellWorldTest() {
-    byte[] body = helloWorldResponder.body(new File("/hello"));
-    assertTrue("Body has 'hello, world", Helpers.bytesToString(body).contains("Hello, world"));
+    InputStream body = helloWorldResponder.body(new File("/hello"));
+    assertTrue("Body has 'hello, world", Helpers.inputStreamToString(body).contains("Hello, world"));
   }
 }

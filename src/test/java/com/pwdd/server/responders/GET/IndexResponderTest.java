@@ -40,7 +40,7 @@ public class IndexResponderTest {
 
   @Test
   public void bodyForRootIsHTMLFileTest() {
-    String body = Helpers.bytesToString(index.body(rootDirectory)).toLowerCase();
+    String body = Helpers.inputStreamToString(index.body(rootDirectory)).toLowerCase();
     assertTrue("Body for root is well formatted HTML",
         body.contains("<!doctype html><html>") &&
             body.contains("<head>") &&
@@ -52,7 +52,7 @@ public class IndexResponderTest {
 
   @Test
   public void bodyHasFileLinks() {
-    String body = Helpers.bytesToString(index.body(new File (rootDirectoryPath, "/nested")));
+    String body = Helpers.inputStreamToString(index.body(new File (rootDirectoryPath, "/nested")));
     assertTrue("Body has file names", body.toLowerCase().contains("a.txt"));
     assertTrue("Body has all file names", body.toLowerCase().contains("b.txt"));
   }

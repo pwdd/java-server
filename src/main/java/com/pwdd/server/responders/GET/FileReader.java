@@ -1,21 +1,11 @@
 package com.pwdd.server.responders.GET;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 
-abstract class FileReader {
+class FileReader {
 
-  public byte[] body(File file) {
-    byte[] bodyBytes = new byte[0];
-    try {
-      bodyBytes = fileToByteArray(file);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return bodyBytes;
+  public InputStream body(File file) throws IOException {
+    return new FileInputStream(file.getAbsolutePath());
   }
 
   String getExtension(File file) {
@@ -23,8 +13,7 @@ abstract class FileReader {
     return split[split.length - 1];
   }
 
-  private byte[] fileToByteArray(File file) throws IOException {
-    Path path = Paths.get(file.getAbsolutePath());
-    return Files.readAllBytes(path);
+  int size(File file) {
+    return (int) file.length();
   }
 }

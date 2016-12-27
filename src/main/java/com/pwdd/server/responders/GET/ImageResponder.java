@@ -4,7 +4,9 @@ import com.pwdd.server.protocol.Protocol;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.utils.FileHandler;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 
 public class ImageResponder extends FileReader implements IResponder {
 
@@ -12,13 +14,12 @@ public class ImageResponder extends FileReader implements IResponder {
     return file.exists() && (FileHandler.isImage(file) || FileHandler.isPdf(file));
   }
 
-  public byte[] header(File file, String date) {
-    String responseHeader = Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
+  public InputStream header(File file, String date) {
+    return new ByteArrayInputStream((Protocol.version + " " + Protocol.statusCodes.get("200") + CRLF +
         "Content-Type: " + contentTypeFor(file) + CRLF +
         "Date: " + date + CRLF +
-        "Content-Length: " + body(file).length + CRLF +
-        CRLF;
-    return responseHeader.getBytes();
+        "Content-Length: " + size(file) + CRLF +
+        CRLF).getBytes());
   }
 
   private String contentTypeFor(File file) {

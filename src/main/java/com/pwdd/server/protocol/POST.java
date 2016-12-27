@@ -3,8 +3,6 @@ package com.pwdd.server.protocol;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.responders.POST.ProcessFormResponder;
 
-import java.io.File;
-
 public class POST extends ResponseBuilder implements Protocol {
   private String requestBody;
 

@@ -1,13 +1,15 @@
 package com.pwdd.server.responders;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public interface IResponder {
   String CRLF = "\r\n";
 
   boolean canRespond(File file);
 
-  byte[] header(File file, String date);
+  InputStream header(File file, String date);
 
-  byte[] body(File file);
+  InputStream body(File file) throws IOException;
 }

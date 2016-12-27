@@ -22,7 +22,7 @@ public class POSTTest {
       put("Body", data);
     }};
     Protocol post = new POST(data);
-    String response = Helpers.bytesToString(
+    String response = Helpers.inputStreamToString(
         post.processResponse(map, root, post.responders()));
     assertTrue("Status code is 400 for invalid data", response.contains("400 Bad Request"));
 
