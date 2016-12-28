@@ -3,14 +3,12 @@ package com.pwdd.server.connection;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class ServerTest {
-  private final File rootDirectory = new File(System.getProperty("user.dir"), "src/test/java/com/pwdd/server/mocks/filesystem");
+  private final File rootDirectory = new File(System.getProperty("user.dir"),
+      "src/test/java/com/pwdd/server/mocks/filesystem");
   private final int portNumber = 8080;
   private final String hostName = "localhost";
   private Server server;
