@@ -25,7 +25,7 @@ class ConnectionManager implements Runnable {
 
   void sendResponseTo(Socket socket, InputStream response) throws IOException {
     byte[] buf = new byte[1024];
-    int bytesRead = 0;
+    int bytesRead;
     BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
     while ((bytesRead = response.read(buf)) != -1) {
       out.write(buf, 0, bytesRead);

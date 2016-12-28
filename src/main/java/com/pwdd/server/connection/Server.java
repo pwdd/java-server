@@ -3,30 +3,25 @@ package com.pwdd.server.connection;
 import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 class Server implements Runnable {
+  private final int NUMBEROFTHREADS = 4;
   private ServerSocket serverSocket;
-  private Socket socket;
   private final int portNumber;
   private Boolean listening = false;
-  private ConnectionManager connectionManager;
   private final File rootDirectory;
+  private final ExecutorService pool;
 
   Server(int _portNumber, File _rootDirectory) {
     this.portNumber = _portNumber;
     this.rootDirectory = _rootDirectory;
+    this.pool = Executors.newFixedThreadPool(NUMBEROFTHREADS);
   }
 
   void listen() throws Exception {
     serverSocket = new ServerSocket(portNumber);
-  }
-
-  private void openConnection() throws Exception {
-    socket = serverSocket.accept();
-  }
-
-  private void startConnectionHandler() {
-    connectionManager = new ConnectionManager(socket, rootDirectory);
   }
 
   @Override
@@ -36,12 +31,10 @@ class Server implements Runnable {
     try {
       listen();
       while(listening) {
-        openConnection();
-        startConnectionHandler();
-        connectionManager.run();
+        pool.execute(new ConnectionManager(serverSocket.accept(), rootDirectory));
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      pool.shutdown();
     }
   }
 
