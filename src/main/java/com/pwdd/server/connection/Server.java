@@ -2,15 +2,16 @@ package com.pwdd.server.connection;
 
 import java.io.File;
 import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 class Server implements Runnable {
-  private ServerSocket serverSocket;
-  private Socket socket;
-  private final int portNumber;
   private Boolean listening = false;
-  private ConnectionManager connectionManager;
+  private ServerSocket serverSocket;
+  private final int portNumber;
   private final File rootDirectory;
+  private final ExecutorService pool = Executors.newFixedThreadPool(4);
 
   Server(int _portNumber, File _rootDirectory) {
     this.portNumber = _portNumber;
@@ -21,24 +22,14 @@ class Server implements Runnable {
     serverSocket = new ServerSocket(portNumber);
   }
 
-  private void openConnection() throws Exception {
-    socket = serverSocket.accept();
-  }
-
-  private void startConnectionHandler() {
-    connectionManager = new ConnectionManager(socket, rootDirectory);
-  }
-
   @Override
   public void run() {
     listening = true;
-
+    interceptTermination();
     try {
       listen();
-      while(listening) {
-        openConnection();
-        startConnectionHandler();
-        connectionManager.run();
+      while (listening) {
+        pool.execute(new ConnectionManager(serverSocket.accept(), rootDirectory));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -48,5 +39,26 @@ class Server implements Runnable {
   void stop() throws Exception {
     serverSocket.close();
     listening = false;
+  }
+
+  private void waitTermination() {
+    pool.shutdown();
+    try {
+      if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
+        pool.shutdownNow();
+      }
+    } catch (InterruptedException ie) {
+      pool.shutdownNow();
+      Thread.currentThread().interrupt();
+    }
+  }
+
+  private void interceptTermination() {
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        waitTermination();
+      }
+    });
   }
 }
