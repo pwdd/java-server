@@ -13,10 +13,12 @@ import java.util.HashMap;
 class ConnectionManager implements Runnable {
   private final File rootDirectory;
   private final Socket socket;
+  private final RequestParser requestParser;
 
   ConnectionManager(Socket _socket, File _rootDirectory) {
     this.socket = _socket;
     this.rootDirectory = _rootDirectory;
+    this.requestParser = new RequestParser();
   }
 
   BufferedReader getRequestFrom(Socket socket) throws IOException {
@@ -40,7 +42,7 @@ class ConnectionManager implements Runnable {
   @Override
   public void run() {
     try {
-      HashMap<String, String> request = RequestParser.requestMap(getRequestFrom(socket));
+      HashMap<String, String> request = requestParser.requestMap(getRequestFrom(socket));
       Protocol method = getProtocol(request);
       IResponder[] responders = method.responders();
       sendResponseTo(socket, method.processResponse(request, rootDirectory, responders));

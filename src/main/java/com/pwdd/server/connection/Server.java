@@ -24,10 +24,10 @@ class Server implements Runnable {
 
   @Override
   public void run() {
-    listening = true;
     interceptTermination();
     try {
       listen();
+      listening = true;
       while (listening) {
         pool.execute(new ConnectionManager(serverSocket.accept(), rootDirectory));
       }

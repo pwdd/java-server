@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class RequestParserTest {
+  private final RequestParser requestParser = new RequestParser();
   @Test
   public void headerTest() throws IOException {
     String request = "GET /foo HTTP/1.1\r\n" +
@@ -26,7 +27,7 @@ public class RequestParserTest {
     expected.put("Keep-Alive", "300");
     expected.put("ConnectionManager", "keep-alive");
 
-    assertEquals(expected, RequestParser.requestMap(br));
+    assertEquals(expected, requestParser.requestMap(br));
   }
 
   @Test
@@ -51,6 +52,6 @@ public class RequestParserTest {
     expected.put("Content-Length", "5");
     expected.put("Body", "hello");
 
-    assertEquals(expected, RequestParser.requestMap(br));
+    assertEquals(expected, requestParser.requestMap(br));
   }
 }
