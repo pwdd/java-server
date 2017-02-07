@@ -3,25 +3,30 @@ package com.pwdd.server.protocol;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.responders.POST.ProcessFormResponder;
 
-public class POST extends ResponseBuilder implements Protocol {
-  private String requestBody;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
-  public POST(String _requestBody) {
+public class POST implements Protocol {
+  private String requestBody;
+  private ResponseBuilder responseBuilder;
+
+  public POST(String _requestBody, ResponseBuilder _responseBuilder) {
     this.requestBody = _requestBody;
+    this.responseBuilder = _responseBuilder;
+  }
+
+  public InputStream processResponse(
+      HashMap<String, String> request,
+      File rootDirectory,
+      IResponder[] responders) throws IOException {
+    return responseBuilder.processResponse(request, rootDirectory, responders, this);
   }
 
   public IResponder[] responders() {
     return new IResponder[]{
         new ProcessFormResponder(requestBody)
     };
-  }
-
-  @Override
-  public String errorMessage() {
-    String invalidRequest = Protocol.statusCodes.get("400");
-    return Protocol.version + " " + invalidRequest + IResponder.CRLF +
-        "Date: " + dateInUTC0() + IResponder.CRLF +
-        IResponder.CRLF +
-        invalidRequest;
   }
 }

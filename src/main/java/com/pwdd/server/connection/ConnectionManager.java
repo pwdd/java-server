@@ -4,6 +4,8 @@ import com.pwdd.server.RequestParser;
 import com.pwdd.server.protocol.GET;
 import com.pwdd.server.protocol.POST;
 import com.pwdd.server.protocol.Protocol;
+import com.pwdd.server.protocol.ResponseBuilder;
+import com.pwdd.server.responders.GET.FileReader;
 import com.pwdd.server.responders.IResponder;
 
 import java.io.*;
@@ -54,7 +56,7 @@ class ConnectionManager implements Runnable {
 
   private Protocol getProtocol(HashMap<String, String> request) throws IOException {
     return request.get("Method").equalsIgnoreCase("POST") ?
-        new POST(request.get("Body")) :
-        new GET(rootDirectory);
+        new POST(request.get("Body"), ResponseBuilder.getInstance()) :
+        new GET(rootDirectory, FileReader.getInstance(), ResponseBuilder.getInstance());
   }
 }

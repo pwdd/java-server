@@ -9,51 +9,68 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
-abstract class ResponseBuilder {
+public final class ResponseBuilder {
 
-  public InputStream processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException {
-    String uri = request.get("URI");
-    File file = defineFile(rootDirectory, uri);
-    return response(file, responders);
+  private static ResponseBuilder responseBuilder = new ResponseBuilder();
+
+  private ResponseBuilder() {}
+
+  public static ResponseBuilder getInstance() {
+    return responseBuilder;
   }
 
-  private InputStream response(File file, IResponder[] responders) throws IOException {
+  InputStream processResponse(
+      HashMap<String, String> request,
+      File rootDirectory,
+      IResponder[] responders,
+      Protocol protocol) throws IOException {
+    String uri = request.get("URI");
+    File file = defineFile(rootDirectory, uri);
+    return response(file, responders, protocol);
+  }
+
+  private static InputStream response(File file, IResponder[] responders, Protocol protocol) throws IOException {
     for (IResponder responder : responders) {
       if (responder.canRespond(file)) {
         return buildFrom(responder.header(file, dateInUTC0()), responder.body(file));
       }
     }
-    return new ByteArrayInputStream(errorMessage().getBytes());
+    return new ByteArrayInputStream(errorMessage(protocol).getBytes());
   }
 
-  private InputStream buildFrom(InputStream header, InputStream body) {
+  private static InputStream buildFrom(InputStream header, InputStream body) {
     return new SequenceInputStream(header, body);
   }
 
-  String dateInUTC0() {
+  private static String dateInUTC0() {
     ZonedDateTime date = ZonedDateTime.now(ZoneOffset.UTC);
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
     return dateFormat.format(date);
   }
 
-  String errorMessage() {
+  private static String errorMessage(Protocol protocol) {
     String crlf = "\r\n";
-    return Protocol.version + " " + Protocol.statusCodes.get("404") + crlf +
+    String error = protocol instanceof GET ? Protocol.statusCodes.get("404") : Protocol.statusCodes.get("400");
+    return Protocol.version + " " + error + crlf +
         "Date: " + dateInUTC0() + crlf +
         crlf +
-        Protocol.statusCodes.get("404");
+        error;
   }
 
-  private File defineFile(File rootDirectory, String uri) {
+  private static File defineFile(File rootDirectory, String uri) {
     String path = uri.toLowerCase();
-    if (path.equals("/hello") || path.equals("/hello/")) {
-      return new File("/hello");
-    } else if (path.equals("/form") || path.equals("/form/")) {
-      return new File("/form");
-    } else if (path.equals("/processed-form") || path.equals("/processed-form/")) {
-      return new File("/processed-form");
-    } else {
-      return FileHandler.uriToFile(rootDirectory.getAbsolutePath(), uri);
+    switch (path) {
+      case "/hello":
+      case "/hello/":
+        return new File("/hello");
+      case "/form":
+      case "/form/":
+        return new File("/form");
+      case "/processed-form":
+      case "/processed-form/":
+        return new File("/processed-form");
+      default:
+        return FileHandler.uriToFile(rootDirectory.getAbsolutePath(), uri);
     }
   }
 }
