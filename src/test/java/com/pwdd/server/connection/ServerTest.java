@@ -31,7 +31,7 @@ public class ServerTest {
   public void acceptsConnection() throws Exception  {
     try (Socket client = new Socket(hostName, portNumber)) {
       assertTrue("Server accepts connection when serverSocket is listening", client.isConnected());
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -39,8 +39,9 @@ public class ServerTest {
 
     try (Socket client = new Socket(hostName, portNumber)) {
       fail("Client should be unable to connect when server socket is closed");
-    } catch (Exception e) {
-      assertEquals("Connection refused", e.getMessage());
+    } catch (IOException e) {
+      String message = e.getMessage().toLowerCase();
+      assertTrue(message.contains("connection refused"));
     }
   }
 

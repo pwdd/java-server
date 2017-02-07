@@ -1,6 +1,8 @@
 package com.pwdd.server.protocol;
 
 import com.pwdd.server.helpers.Helpers;
+import com.pwdd.server.request.Request;
+import com.pwdd.server.responders.GET.FileReader;
 import org.junit.*;
 
 import java.io.*;
@@ -11,7 +13,7 @@ import static org.junit.Assert.*;
 public class GETTest {
   private final File rootDirectory = new File(System.getProperty("user.dir"),
       "src/test/java/com/pwdd/server/mocks/filesystem");
-  private final Protocol getResponder = new GET(rootDirectory);
+  private final Protocol getResponder = new GET(rootDirectory, FileReader.getInstance(), ResponseBuilder.getInstance());
 
   private HashMap<String, String> mapRequest(String uri) {
     return new HashMap<String, String>() {{
@@ -21,7 +23,8 @@ public class GETTest {
   }
 
   private String responseFor(String uri) throws IOException {
-    return Helpers.inputStreamToString(getResponder.processResponse(mapRequest(uri),
+    Request request = new Request(mapRequest(uri));
+    return Helpers.inputStreamToString(getResponder.processResponse(request,
         rootDirectory,
         getResponder.responders()));
   }

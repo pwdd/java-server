@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProcessFormResponder implements IResponder {
-  private String formData;
+  private final String formData;
 
   public ProcessFormResponder(String _formData) {
     this.formData = _formData;
@@ -29,16 +29,14 @@ public class ProcessFormResponder implements IResponder {
   }
 
   public InputStream body(File file) {
-    StringBuilder html = new StringBuilder();
-    html.append("<!doctype html><html><head><title>Form data</title></head><body><h1>Sent data:</h1><ul>").
-        append(formatFormData()).append("</ul>").
-        append(back()).
-        append("</body></html>");
-    return new ByteArrayInputStream(html.toString().getBytes());
-  }
+    String back = "<a href=\"/form\"><button>back</button></a>";
 
-  private String back() {
-    return "<a href=\"/form\"><button>back</button></a>";
+    String html = "<!doctype html><html><head><title>Form data</title></head><body><h1>Sent data:</h1><ul>" +
+        formatFormData() + "</ul>" +
+        back +
+        "</body></html>";
+
+    return new ByteArrayInputStream(html.getBytes());
   }
 
   HashMap<String, String> mapFormData() {

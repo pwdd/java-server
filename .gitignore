@@ -9,4 +9,3 @@ Intellij
 # Maven
 log/
 target/**
-!target/httpServer-0.1.jar

@@ -3,7 +3,6 @@ package com.pwdd.server.responders.GET;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +14,7 @@ import com.pwdd.server.helpers.Helpers;
 
 public class DownloadableResponderTest {
   private final String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem/";
-  private final DownloadableResponder downloadableResponder = new DownloadableResponder();
+  private final DownloadableResponder downloadableResponder = new DownloadableResponder(FileReader.getInstance());
 
   @Test
   public void canRespondToFileTest() {

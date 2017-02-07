@@ -6,9 +6,15 @@ import com.pwdd.server.utils.FileHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
-public class DownloadableResponder extends FileReader implements IResponder {
+public class DownloadableResponder implements IResponder {
+  private final FileReader fileReader;
+
+  public DownloadableResponder(FileReader _fileReader) {
+    this.fileReader = _fileReader;
+  }
 
   public boolean canRespond(File file) {
     return isDownloadable(file);
@@ -19,8 +25,12 @@ public class DownloadableResponder extends FileReader implements IResponder {
         "Date: " + date + CRLF +
         "Content-Type: application/octet-stream" + CRLF +
         "Content-Disposition: attachment" + CRLF +
-        "Content-Length: " + size(file) + CRLF +
+        "Content-Length: " + fileReader.size(file) + CRLF +
         CRLF).getBytes());
+  }
+
+  public InputStream body(File file) throws IOException {
+    return fileReader.body(file);
   }
 
   boolean isDownloadable(File file) {

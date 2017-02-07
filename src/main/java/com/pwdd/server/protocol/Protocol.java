@@ -1,5 +1,6 @@
 package com.pwdd.server.protocol;
 
+import com.pwdd.server.request.Request;
 import com.pwdd.server.responders.IResponder;
 
 import java.io.File;
@@ -16,7 +17,8 @@ public interface Protocol {
     put("400", "400 Bad Request");
   }};
 
-  InputStream processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders) throws IOException;
+  InputStream processResponse(Request request, File rootDirectory, IResponder[] responders)
+      throws IOException;
 
   IResponder[] responders();
 }

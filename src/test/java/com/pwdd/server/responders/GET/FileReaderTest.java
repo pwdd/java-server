@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileReaderTest {
-  private final DownloadableResponder fileReaderTester = new DownloadableResponder();
+  private final FileReader fileReader = FileReader.getInstance();
 
   @Test
   public void bodyReadsAnImageIntoBytes() throws IOException {
@@ -19,7 +19,7 @@ public class FileReaderTest {
     File file = new File(path);
     Path filePath = Paths.get(path);
     byte[] expected = Files.readAllBytes(filePath);
-    byte[] result = Helpers.responseByteArray(fileReaderTester.body(file));
+    byte[] result = Helpers.responseByteArray(fileReader.body(file));
     assertArrayEquals("Body has same content as image", expected, result);
   }
 
@@ -29,19 +29,19 @@ public class FileReaderTest {
     File file = new File(path);
     Path filePath = Paths.get(path);
     byte[] expected = Files.readAllBytes(filePath);
-    byte[] result = Helpers.responseByteArray(fileReaderTester.body(file));
+    byte[] result = Helpers.responseByteArray(fileReader.body(file));
     assertArrayEquals("Body has same content as file", expected, result);
   }
 
   @Test
   public void getExtensionPNGTest() {
     File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/battle.png");
-    assertEquals("Get extension of png", "png", fileReaderTester.getExtension(file));
+    assertEquals("Get extension of png", "png", fileReader.getExtension(file));
   }
 
   @Test
   public void getExtensionPDFTest() {
     File file = new File("src/test/java/com/pwdd/server/mocks/filesystem/readme.pdf");
-    assertEquals("Get extension of pdf", "pdf", fileReaderTester.getExtension(file));
+    assertEquals("Get extension of pdf", "pdf", fileReader.getExtension(file));
   }
 }

@@ -2,7 +2,6 @@ package com.pwdd.server.connection;
 
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.pwdd.server.mocks.MockSocket;
 
@@ -52,7 +51,7 @@ public class ConnectionManagerTest {
   private void startServer() {
     try {
       server.listen();
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
