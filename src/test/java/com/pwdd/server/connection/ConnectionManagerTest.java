@@ -2,7 +2,6 @@ package com.pwdd.server.connection;
 
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.pwdd.server.mocks.MockSocket;
 
