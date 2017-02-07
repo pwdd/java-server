@@ -9,8 +9,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 public class POST implements Protocol {
-  private String requestBody;
-  private ResponseBuilder responseBuilder;
+  private final String requestBody;
+  private final ResponseBuilder responseBuilder;
 
   public POST(String _requestBody, ResponseBuilder _responseBuilder) {
     this.requestBody = _requestBody;

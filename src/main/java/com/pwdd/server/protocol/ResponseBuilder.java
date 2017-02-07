@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public final class ResponseBuilder {
 
-  private static ResponseBuilder responseBuilder = new ResponseBuilder();
+  private static final ResponseBuilder responseBuilder = new ResponseBuilder();
 
   private ResponseBuilder() {}
 

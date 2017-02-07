@@ -4,7 +4,7 @@ import java.io.*;
 
 public final class FileReader {
 
-  private static FileReader fileReader = new FileReader();
+  private static final FileReader fileReader = new FileReader();
 
   private FileReader() {}
 

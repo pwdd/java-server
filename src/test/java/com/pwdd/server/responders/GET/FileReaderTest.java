@@ -1,7 +1,6 @@
-package com.pwdd.server.fileReaders.GET;
+package com.pwdd.server.responders.GET;
 
 import com.pwdd.server.helpers.Helpers;
-import com.pwdd.server.responders.GET.FileReader;
 import org.junit.*;
 import static org.junit.Assert.*;
 
