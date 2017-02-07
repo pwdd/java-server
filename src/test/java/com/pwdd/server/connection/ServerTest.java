@@ -31,7 +31,7 @@ public class ServerTest {
   public void acceptsConnection() throws Exception  {
     try (Socket client = new Socket(hostName, portNumber)) {
       assertTrue("Server accepts connection when serverSocket is listening", client.isConnected());
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
