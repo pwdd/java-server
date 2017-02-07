@@ -2,7 +2,7 @@
 set terminal png
 
 # save file to "out.png"
-set output "benchmark/after/out.png"
+set output "benchmark/linearResponseOverTime.png"
 
 # graph title
 set title "1000 requests, 20 concurrent, 100MB file"
@@ -20,4 +20,4 @@ set xlabel "request"
 set ylabel "response time (ms)"
 
 # plot data from "out.dat" using column 9 with smooth sbezier lines
-plot "benchmark/after/out.tsv" using 9 smooth sbezier with lines title 'response time'
+plot "benchmark/AB-Data.tsv" using 9 smooth sbezier with lines title 'response time'
