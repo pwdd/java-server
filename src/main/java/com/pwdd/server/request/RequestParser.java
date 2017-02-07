@@ -1,4 +1,4 @@
-package com.pwdd.server;
+package com.pwdd.server.request;
 
 import com.pwdd.server.responders.IResponder;
 
@@ -7,7 +7,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class RequestParser {
+public final class RequestParser {
+
+  private RequestParser() {}
+
+  private static RequestParser requestParser = new RequestParser();
+
+  public static RequestParser getInstance() { return requestParser; }
 
   public HashMap<String, String> requestMap(BufferedReader request) throws IOException {
     synchronized (this) {
@@ -26,7 +32,7 @@ public class RequestParser {
     }
   }
 
-  private String bufToString(BufferedReader buf) throws IOException {
+  private static String bufToString(BufferedReader buf) throws IOException {
     int contentLength = 0;
     String contentLengthKey = "Content-Length: ";
     StringBuilder request = new StringBuilder();
@@ -45,17 +51,17 @@ public class RequestParser {
     return request.toString();
   }
 
-  private void getBody(BufferedReader buf, StringBuilder base, int size) throws IOException {
+  private static void getBody(BufferedReader buf, StringBuilder base, int size) throws IOException {
     char[] body = new char[size];
     buf.read(body);
     base.append("Body: ").append(new String(body)).append(IResponder.CRLF);
   }
 
-  private String[] stringToStringArray(String in) {
+  private static String[] stringToStringArray(String in) {
     return in.split("\\r\\n");
   }
 
-  private void parseFirstLine(HashMap<String, String> map, String firstLine) {
+  private static void parseFirstLine(HashMap<String, String> map, String firstLine) {
     String[] firstLineList = firstLine.split("\\s");
 
     map.put("Method", firstLineList[0]);

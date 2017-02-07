@@ -1,12 +1,12 @@
 package com.pwdd.server.protocol;
 
+import com.pwdd.server.request.Request;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.responders.POST.ProcessFormResponder;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
 public class POST implements Protocol {
   private final String requestBody;
@@ -18,7 +18,7 @@ public class POST implements Protocol {
   }
 
   public InputStream processResponse(
-      HashMap<String, String> request,
+      Request request,
       File rootDirectory,
       IResponder[] responders) throws IOException {
     return responseBuilder.processResponse(request, rootDirectory, responders, this);

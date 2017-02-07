@@ -1,11 +1,11 @@
 package com.pwdd.server.protocol;
 
+import com.pwdd.server.request.Request;
 import com.pwdd.server.responders.GET.*;
 import com.pwdd.server.responders.GET.FileReader;
 import com.pwdd.server.responders.IResponder;
 
 import java.io.*;
-import java.util.HashMap;
 
 public class GET implements Protocol {
   private final File rootDirectory;
@@ -18,7 +18,7 @@ public class GET implements Protocol {
     this.responseBuilder = _responseBuilder;
   }
 
-  public InputStream processResponse(HashMap<String, String> request, File rootDirectory, IResponder[] responders)
+  public InputStream processResponse(Request request, File rootDirectory, IResponder[] responders)
       throws IOException {
     return responseBuilder.processResponse(request, rootDirectory, responders, this);
   }
