@@ -56,6 +56,7 @@ public class IndexResponder implements IResponder {
     String endList = "</ul>";
     StringBuilder listItems = new StringBuilder();
 
+    assert files != null;
     for (File file : files) {
       listItems.append("<li><a href=\"").
           append(relativizePath(directory, file)).

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageResponder implements IResponder {
-  private FileReader fileReader;
+  private final FileReader fileReader;
 
   public ImageResponder(FileReader _fileReader) {
     this.fileReader = _fileReader;

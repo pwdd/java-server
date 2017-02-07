@@ -3,7 +3,6 @@ package com.pwdd.server.responders.GET;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
