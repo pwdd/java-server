@@ -1,6 +1,7 @@
 package com.pwdd.server.connection;
 
-import com.pwdd.server.RequestParser;
+import com.pwdd.server.request.Request;
+import com.pwdd.server.request.RequestParser;
 import com.pwdd.server.protocol.GET;
 import com.pwdd.server.protocol.POST;
 import com.pwdd.server.protocol.Protocol;
@@ -15,12 +16,11 @@ import java.util.HashMap;
 class ConnectionManager implements Runnable {
   private final File rootDirectory;
   private final Socket socket;
-  private final RequestParser requestParser;
+  private final RequestParser requestParser = RequestParser.getInstance();
 
   ConnectionManager(Socket _socket, File _rootDirectory) {
     this.socket = _socket;
     this.rootDirectory = _rootDirectory;
-    this.requestParser = new RequestParser();
   }
 
   BufferedReader getRequestFrom(Socket socket) throws IOException {
@@ -44,7 +44,8 @@ class ConnectionManager implements Runnable {
   @Override
   public void run() {
     try {
-      HashMap<String, String> request = requestParser.requestMap(getRequestFrom(socket));
+      HashMap<String, String> requestMap = requestParser.requestMap(getRequestFrom(socket));
+      Request request = new Request(requestMap);
       Protocol method = getProtocol(request);
       IResponder[] responders = method.responders();
       sendResponseTo(socket, method.processResponse(request, rootDirectory, responders));
@@ -54,9 +55,9 @@ class ConnectionManager implements Runnable {
     }
   }
 
-  private Protocol getProtocol(HashMap<String, String> request) {
-    return request.get("Method").equalsIgnoreCase("POST") ?
-        new POST(request.get("Body"), ResponseBuilder.getInstance()) :
+  private Protocol getProtocol(Request request) {
+    return request.getMethod().equalsIgnoreCase("POST") ?
+        new POST(request.getBody(), ResponseBuilder.getInstance()) :
         new GET(rootDirectory, FileReader.getInstance(), ResponseBuilder.getInstance());
   }
 }

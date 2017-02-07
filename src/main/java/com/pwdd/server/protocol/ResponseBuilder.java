@@ -1,5 +1,6 @@
 package com.pwdd.server.protocol;
 
+import com.pwdd.server.request.Request;
 import com.pwdd.server.responders.IResponder;
 import com.pwdd.server.utils.FileHandler;
 
@@ -7,7 +8,6 @@ import java.io.*;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 
 public final class ResponseBuilder {
 
@@ -20,11 +20,11 @@ public final class ResponseBuilder {
   }
 
   InputStream processResponse(
-      HashMap<String, String> request,
+      Request request,
       File rootDirectory,
       IResponder[] responders,
       Protocol protocol) throws IOException {
-    String uri = request.get("URI");
+    String uri = request.getURI();
     File file = defineFile(rootDirectory, uri);
     return response(file, responders, protocol);
   }

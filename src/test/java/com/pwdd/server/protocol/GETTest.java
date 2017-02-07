@@ -1,6 +1,7 @@
 package com.pwdd.server.protocol;
 
 import com.pwdd.server.helpers.Helpers;
+import com.pwdd.server.request.Request;
 import com.pwdd.server.responders.GET.FileReader;
 import org.junit.*;
 
@@ -22,7 +23,8 @@ public class GETTest {
   }
 
   private String responseFor(String uri) throws IOException {
-    return Helpers.inputStreamToString(getResponder.processResponse(mapRequest(uri),
+    Request request = new Request(mapRequest(uri));
+    return Helpers.inputStreamToString(getResponder.processResponse(request,
         rootDirectory,
         getResponder.responders()));
   }

@@ -1,4 +1,4 @@
-package com.pwdd.server;
+package com.pwdd.server.request;
 
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class RequestParserTest {
-  private final RequestParser requestParser = new RequestParser();
+  private final RequestParser requestParser = RequestParser.getInstance();
   @Test
   public void headerTest() throws IOException {
     String request = "GET /foo HTTP/1.1\r\n" +
