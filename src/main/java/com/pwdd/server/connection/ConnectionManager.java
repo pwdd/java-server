@@ -49,7 +49,7 @@ class ConnectionManager implements Runnable {
       IResponder[] responders = method.responders();
       sendResponseTo(socket, method.processResponse(request, rootDirectory, responders));
       socket.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

@@ -51,7 +51,7 @@ public class ConnectionManagerTest {
   private void startServer() {
     try {
       server.listen();
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

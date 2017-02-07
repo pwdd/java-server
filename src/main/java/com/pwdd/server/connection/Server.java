@@ -1,6 +1,7 @@
 package com.pwdd.server.connection;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +19,7 @@ class Server implements Runnable {
     this.rootDirectory = _rootDirectory;
   }
 
-  void listen() throws Exception {
+  void listen() throws IOException {
     serverSocket = new ServerSocket(portNumber);
   }
 
@@ -31,12 +32,12 @@ class Server implements Runnable {
       while (listening) {
         pool.execute(new ConnectionManager(serverSocket.accept(), rootDirectory));
       }
-    } catch (Exception e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  void stop() throws Exception {
+  void stop() throws IOException {
     serverSocket.close();
     listening = false;
   }
