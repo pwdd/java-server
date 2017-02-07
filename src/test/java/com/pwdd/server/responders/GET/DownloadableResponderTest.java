@@ -15,7 +15,7 @@ import com.pwdd.server.helpers.Helpers;
 
 public class DownloadableResponderTest {
   private final String rootDirectoryPath = "src/test/java/com/pwdd/server/mocks/filesystem/";
-  private final DownloadableResponder downloadableResponder = new DownloadableResponder();
+  private final DownloadableResponder downloadableResponder = new DownloadableResponder(FileReader.getInstance());
 
   @Test
   public void canRespondToFileTest() {
