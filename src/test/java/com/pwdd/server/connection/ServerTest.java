@@ -39,8 +39,9 @@ public class ServerTest {
 
     try (Socket client = new Socket(hostName, portNumber)) {
       fail("Client should be unable to connect when server socket is closed");
-    } catch (Exception e) {
-      assertEquals("Connection refused", e.getMessage());
+    } catch (IOException e) {
+      String message = e.getMessage().toLowerCase();
+      assertTrue(message.contains("connection refused"));
     }
   }
 
