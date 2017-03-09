@@ -46,15 +46,15 @@ public final class RequestParser {
       }
     }
     if (contentLength > 0) {
-      getBody(buf, request, contentLength);
+      request.append(getBody(buf, contentLength));
     }
     return request.toString();
   }
 
-  private static void getBody(BufferedReader buf, StringBuilder base, int size) throws IOException {
+  private static String getBody(BufferedReader buf, int size) throws IOException {
     char[] body = new char[size];
     buf.read(body);
-    base.append("Body: ").append(new String(body)).append(IResponder.CRLF);
+    return "Body: " + new String(body) + IResponder.CRLF;
   }
 
   private static String[] stringToStringArray(String in) {
